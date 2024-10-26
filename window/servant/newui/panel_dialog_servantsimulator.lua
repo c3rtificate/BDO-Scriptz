@@ -1,0 +1,102 @@
+PaGlobal_ServantSimulator = {
+  _ui = {
+    _stc_titleBg = nil,
+    _btn_stickerUI = nil,
+    _btn_close = nil,
+    _stc_mainBg = nil,
+    _stc_tabBg = nil,
+    _btn_growUp = nil,
+    _btn_mating = nil,
+    _stc_selectLine = nil,
+    _growUp = {
+      _stc_growUpBg = nil,
+      _stc_growUpLeft = nil,
+      _stc_horseImage = nil,
+      _stc_selectHorse = nil,
+      _btn_changeHorse = nil,
+      _txt_selectHorseName = nil,
+      _stc_horseGender = nil,
+      _btn_reset = nil,
+      _cbx_horseLevel = nil,
+      _cbx_lifeLevel = nil,
+      _chk_imprint = nil,
+      _chk_equipAvatar = nil,
+      _txt_hp = nil,
+      _txt_mp = nil,
+      _txt_acceleration = nil,
+      _txt_speed = nil,
+      _txt_cornering = nil,
+      _txt_brake = nil,
+      _txt_shape = nil,
+      _stc_growUpRight = nil,
+      _stc_emptyText = nil,
+      _stc_vitalityHelpIcon = nil,
+      _stc_skillHelpIcon = nil,
+      _lst_vitality = nil,
+      _lst_ability = nil,
+      _lst_skill = nil
+    },
+    _mating = {
+      _stc_matingBg = nil,
+      _stc_matingLeft = nil,
+      _stc_editBg = nil,
+      _txt_proficiency = nil,
+      _btn_editClear = nil,
+      _btn_editClearConsole = nil,
+      _stc_horseImageMale = nil,
+      _stc_horseImageFemale = nil,
+      _stc_selectHorseMale = nil,
+      _stc_selectHorseFemale = nil,
+      _btn_changeHorseMale = nil,
+      _btn_changeHorseFemale = nil,
+      _txt_horseNameMale = nil,
+      _txt_horseNameFemale = nil,
+      _stc_horseGenderMale = nil,
+      _stc_horseGenderFemale = nil,
+      _btn_resetMale = nil,
+      _btn_resetFemale = nil,
+      _cbx_horseLevelMale = nil,
+      _cbx_horseLevelFemale = nil,
+      _lst_horseSkillMale = nil,
+      _lst_horseSkillFemale = nil,
+      _stc_matingRight = nil,
+      _frm_matingResult = nil,
+      _frmContent_matingResult = nil,
+      _stc_matingResultGroupTemplate = nil,
+      _stc_matingResultHorseTemplate = nil
+    },
+    _stc_keyGuideBg = nil,
+    _stc_keyGuideLB = nil,
+    _stc_keyGuideRB = nil
+  },
+  _tabType = {
+    GROWUP = 0,
+    MATING = 1,
+    COUNT = 2
+  },
+  _list_subject_vitality = 9999999,
+  _list_subject_ability = 9999998,
+  _list_subject_skillCantLearn = 9999997,
+  _growUpSelectInfo = {_dataIndex = nil, _isMyHorse = nil},
+  _matingMaleSelectInfo = {_dataIndex = nil, _isMyHorse = nil},
+  _matingFemaleSelectInfo = {_dataIndex = nil, _isMyHorse = nil},
+  _lastGrowUpLifeLevelComboBoxToIndex = nil,
+  _lastGrowUpHorseLevelComboBoxToIndex = nil,
+  _lastMatingHorseLevelMaleComboBoxToIndex = nil,
+  _lastMatingHorseLevelFemaleComboBoxToIndex = nil,
+  _matingResultList = nil,
+  _selectGrowUpSkillIndexList = nil,
+  _selectMatingSkillList_Male = nil,
+  _selectMatingSkillList_Female = nil,
+  _currentTabType = nil,
+  _isConsole = false,
+  _initialize = false
+}
+runLua("UI_Data/Script/Window/Servant/NewUI/Panel_Dialog_ServantSimulator_1.lua")
+runLua("UI_Data/Script/Window/Servant/NewUI/Panel_Dialog_ServantSimulator_2.lua")
+runLua("UI_Data/Script/Window/Servant/NewUI/Panel_Dialog_ServantSimulator_3.lua")
+runLua("UI_Data/Script/Window/Servant/NewUI/Panel_Dialog_ServantSimulator_4.lua")
+registerEvent("FromClient_luaLoadComplete", "FromClient_ServantSimulatorInit")
+function FromClient_ServantSimulatorInit()
+  PaGlobal_ServantSimulator:initialize()
+end
