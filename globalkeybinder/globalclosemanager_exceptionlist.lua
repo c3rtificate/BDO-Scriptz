@@ -1539,6 +1539,7 @@ function CloseManager_RegisterExeptionList()
     Panel_Widget_FishingEventIcon,
     Panel_Window_PetSkillChange_All,
     Panel_EndingCredit_All,
-    Panel_Window_NetworkAlert_All
+    Panel_Window_NetworkAlert_All,
+    Panel_Window_CharacterStat_All
   }
 end

@@ -452,7 +452,23 @@ function BetterEquipment:update_betterEquipment()
         self._ui.stc_iconList[ii]:setItemByStaticStatus(itemSSW, itemWrapper:getCount())
         local itemGrade = itemSSW:getGradeType()
         local itemGradeColor = PAGlobalFunc_SetItemTextColorByItemGrade(itemGrade)
-        self._ui.txt_nameList[ii]:SetText(tostring(itemSSW:getName()))
+        local itemName = itemSSW:getName()
+        local enchantLevel = itemSSW:get()._key:getEnchantLevel()
+        if ToClient_IsSpecialEnchantItem(itemSSW:get()._key) == true and itemSSW:isKingAccessory() == false then
+          enchantLevel = 0
+        end
+        if enchantLevel ~= 0 then
+          if itemSSW:getItemClassify() == CppEnums.ItemClassifyType.eItemClassify_Accessory then
+            enchantLevel = enchantLevel + 15
+          end
+          if enchantLevel > 15 then
+            itemName = HighEnchantLevel_ReplaceString(enchantLevel) .. " " .. itemName
+          else
+            itemName = "+" .. tostring(enchantLevel) .. " " .. itemName
+          end
+        end
+        itemName = PAGlobalFunc_ReturnAppliedItemColorTextForNewUI(itemName, itemSSW)
+        self._ui.txt_nameList[ii]:SetText(itemName)
         self._ui.txt_nameList[ii]:SetFontColor(itemGradeColor)
         self._ui.stc_iconList[ii].icon:SetPosX(self._ui.stc_baseList[ii]:GetPosX())
         self._ui.stc_iconList[ii].icon:SetPosY(self._ui.stc_baseList[ii]:GetPosY())

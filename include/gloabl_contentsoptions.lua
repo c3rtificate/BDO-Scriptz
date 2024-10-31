@@ -245,7 +245,6 @@ _ContentsGroup_Console_BloodAltar = ToClient_IsContentsGroupOpen("582")
 _ContentsGroup_Origin_BloodAltar = ToClient_IsContentsGroupOpen("588")
 _ContentsGroup_Console_BloodAltarRanking = false
 _ContentsGroup_LargeParty = ToClient_IsContentsGroupOpen("286")
-_ContentsGroup_GuldBattle = ToClient_IsContentsGroupOpen("280")
 _ContentsGroup_FairyLookChange = ToClient_IsContentsGroupOpen("575")
 _ContentsGroup_ChannelChat = ToClient_IsContentsGroupOpen("600")
 _ContentsGroup_Arsha_ApplyWeb = ToClient_IsContentsGroupOpen("602")

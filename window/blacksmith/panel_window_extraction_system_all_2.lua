@@ -176,7 +176,6 @@ function HandleEventLUp_Extraction_System_All_ListControlCreate(control, key)
   slot:setItem(itemWrapper)
   local itemText = UI.getChildControl(btn_item, "StaticText_ItemName")
   itemText:SetTextMode(__eTextMode_AutoWrap)
-  local itemEnchant = UI.getChildControl(itemIcon, "Static_Text_Slot_Enchant_value")
   local text_equipment = UI.getChildControl(btn_item, "StaticText_Equip")
   local hammerIcon = UI.getChildControl(btn_item, "Static_Hammer")
   if nil == PaGlobal_Extraction_System_All._equipNo[key_32] then
@@ -214,9 +213,6 @@ function HandleEventLUp_Extraction_System_All_ListControlCreate(control, key)
     PAGlobalFunc_SetItemTextColor(itemText, itemWrapper:getStaticStatus())
   end
   itemIcon:ChangeTextureInfoName("icon/" .. itemIconPath)
-  if nil ~= PaGlobal_Extraction_System_All._itemInfo.itemEnchantLevle[key_32] then
-    itemEnchant:SetText(PaGlobal_Extraction_System_All._itemInfo.itemEnchantLevle[key_32])
-  end
   if true == PaGlobal_Extraction_System_All._itemInfo.isExtractionEquip[key_32] then
     hammerIcon:SetShow(true)
     btn_item:SetCheck(true)

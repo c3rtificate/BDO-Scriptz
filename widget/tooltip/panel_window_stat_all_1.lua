@@ -550,9 +550,9 @@ function PaGlobal_Window_Stat_All:update(isCheck)
   for ii = 1, PaGlobal_Window_Stat_All._INDEX_COUNT - 1 do
     tempValue = 0
     if ii == self._INDEX_DD then
-      tempValue = ToClient_getBonusBuffStat(__eSendToClientBuffStatType_DD, 0) - ToClient_getAddedDDEquipStat()
+      tempValue = ToClient_getBonusBuffStat(__eSendToClientBuffStatType_DD, 0) - ToClient_getAddedDDEquipStat() - ToClient_getExtraNDD()
     elseif ii == self._INDEX_ADD then
-      tempValue = ToClient_getBonusBuffStat(__eSendToClientBuffStatType_DD, 0) - ToClient_getAddedDDEquipStat()
+      tempValue = ToClient_getBonusBuffStat(__eSendToClientBuffStatType_DD, 0) - ToClient_getAddedDDEquipStat() - ToClient_getExtraNDD()
     elseif ii == self._INDEX_HIT then
       tempValue = ToClient_getBonusBuffStat(__eSendToClientBuffStatType_Hit, 0) - ToClient_getCharacteHitBasic() - ToClient_getHit() + ToClient_getHitBasic()
     elseif ii == self._INDEX_DDV then

@@ -82,7 +82,7 @@ function PaGlobal_NetworkAlert:update()
   self._ui.stc_blackBG:SetSize(screenX + 500, screenY + 500)
   self._ui.stc_blackBG:ComputePos()
   local title = PAGetString(Defines.StringSheet_GAME, "LUA_NEWGAMEOPTION_Function_Alert")
-  local content = PAGetString(Defines.StringSheet_GAME, "GAME_NETWORT_TRANSFER_STATE")
+  local content = PAGetString(Defines.StringSheet_GAME, "LUA_GAME_INTERNET_STATE")
   self._ui.txt_title:SetText(title)
   self._ui.txt_desc:SetText(content)
 end

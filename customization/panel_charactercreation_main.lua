@@ -134,6 +134,8 @@ local originCameraLookEnable = false
 local isFaceScreenShotByBeautyAlbum = false
 local faceScreenSizeX = 1024
 local faceScreenSizeY = 1024
+local btn_confirm = UI.getChildControl(Panel_CustomizationStatic, "Button_Confirm")
+btn_confirm:SetShow(false)
 function PaGloabl_RandFaceBoneOpen_DEV_Show(isShow)
   if nil ~= Button_RandFaceBoneOpen_DEV then
     Button_RandFaceBoneOpen_DEV:SetShow(isShow)
@@ -394,6 +396,8 @@ local function updateComputePos()
   japanEventBanner:ComputePos()
   stc_Zodiac:ComputePosAllChild()
   historyTableRePosY()
+  btn_confirm:SetPosX(getScreenSizeX() - btn_confirm:GetSizeX() - Panel_CustomizationStatic:GetPosX() - 10)
+  btn_confirm:SetPosY(getScreenSizeY() - btn_confirm:GetSizeY() - Panel_CustomizationStatic:GetPosY() - 20)
 end
 local function createWeatherGroup(groupInfo)
   local count = getWeatherCount()
@@ -1333,6 +1337,7 @@ function showAllUI(show)
     Button_LoadCustomization:SetShow(false)
     Button_ApplyDefaultCustomization:SetShow(false)
     Button_CustomizingAlbum:SetShow(false)
+    btn_confirm:SetShow(false)
   end
 end
 local isShow_WebAlbum = false
@@ -1623,11 +1628,16 @@ function HandleClicked_DuplicateName(isCreateCharacterAfterDuplicateCheck)
   if true == _ContentsGroup_newCreateButtonLayout then
     userInput = edt_NameInput:GetEditText()
   end
+  local function focusOnUserInput()
+    SetFocusEdit(edt_NameInput)
+    edt_NameInput:EraseAllEffect()
+    edt_NameInput:AddEffect("fUI_InGame_Light_05A", false, 0, 0)
+  end
   if "" == userInput then
     local messageBoxData = {
       title = PAGetString(Defines.StringSheet_GAME, "LUA_NAMECHANGE_TITLE_CHARACTER"),
       content = PAGetString(Defines.StringSheet_GAME, "LUA_CUSTOMAIZATION_CHARACTER_NAME_MESSAGE"),
-      functionApply = MessageBox_Empty_function,
+      functionApply = focusOnUserInput,
       priority = CppEnums.PAUIMB_PRIORITY.PAUIMB_PRIORITY_LOW
     }
     MessageBox.showMessageBox(messageBoxData)
@@ -2281,6 +2291,38 @@ end
 function PaGlobalFunc_Customization_ResetUrlRandBeauty()
   if nil ~= _web_RandomBeauty then
     _web_RandomBeauty:ResetUrl()
+  end
+end
+function PaGlobalFunc_Customization_ShowConfirmButton(isShow, type)
+  if Panel_CustomizationStatic == nil then
+    return
+  end
+  local btn_cashClose
+  if Panel_Cash_Customization ~= nil then
+    btn_cashClose = UI.getChildControl(Panel_Cash_Customization, "Button_Close")
+  end
+  if isShow == true then
+    if type == nil then
+      return
+    end
+    if type == 1 then
+      btn_confirm:addInputEvent("Mouse_LUp", "CloseFrame()")
+    elseif type == 2 then
+      btn_confirm:addInputEvent("Mouse_LUp", "closeVoiceUI()")
+    elseif type == 3 then
+      btn_confirm:addInputEvent("Mouse_LUp", "closeMotionUi()")
+    elseif type == 4 then
+      btn_confirm:addInputEvent("Mouse_LUp", "closeClothUI()")
+    end
+    btn_confirm:SetShow(true)
+    if Panel_Cash_Customization ~= nil and Panel_Cash_Customization:IsShow() == true then
+      btn_cashClose:SetShow(false)
+    end
+  elseif isShow == false then
+    btn_confirm:SetShow(false)
+    if Panel_Cash_Customization ~= nil and Panel_Cash_Customization:IsShow() == true then
+      btn_cashClose:SetShow(true)
+    end
   end
 end
 registerEvent("FromClient_customzationGamePadInput", "FromClient_customzationGamePadInput")

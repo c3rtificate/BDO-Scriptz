@@ -1869,6 +1869,10 @@ function PaGlobal_GlobalKeyBinder.Process_UIMode_Dye(delataTime)
   end
 end
 function PaGlobal_GlobalKeyBinder.Process_UIMode_SkillWindow(delataTime)
+  if HandleMLUp_SkillWindow_OpenForLearn ~= nil and Panel_Window_SkillGroup ~= nil and Panel_Window_SkillGroup:GetShow() == false and ToClient_LearnSkillCameraIsShow() == true then
+    ToClient_LearnSkillCameraHide()
+    HandleMLUp_SkillWindow_OpenForLearn()
+  end
   local isKeyDownEscape = false
   if _ContentsGroup_UsePadSnapping == true then
     isKeyDownEscape = isPadDown(__eJoyPadInputType_Start) or isKeyDown_Once(VCK.KeyCode_ESCAPE)
@@ -3164,6 +3168,10 @@ function PaGlobal_GlobalKeyBinder.Process_ChattingInputMode()
       else
         QASupport_Automation_PressRightKey(uiEdit)
       end
+    elseif GlobalKeyBinder_CheckKeyPressed(VCK.KeyCode_DOWN) then
+      QASupport_Automation_PressDownKey(uiEdit)
+    elseif GlobalKeyBinder_CheckKeyPressed(VCK.KeyCode_UP) then
+      QASupport_Automation_PressUpKey(uiEdit)
     end
     return true
   elseif PaGlobal_AddFriend_All_CheckCurrentUiEdit_All(uiEdit) then

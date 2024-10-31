@@ -39,6 +39,7 @@ function PaGlobal_DailyStamp_All:initValue()
     table.sort(self._dailyStampKeys, PaGlobalFunc_DailyStamp_All_TabSort)
   end
   self._originTabSizeX = self._ui_pc.btn_tabTitle:GetSizeX()
+  self._isFirstFiendEnterShowRewardUI = false
 end
 function PaGlobal_DailyStamp_All:controlAll_Init()
   if nil == Panel_Window_DailyStamp_All then

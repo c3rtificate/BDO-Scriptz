@@ -35,7 +35,8 @@ PaGlobal_CharacterSelect_All = {
     stc_FreeSeasonCountCircle = {},
     _rdoTables = {},
     _btn_EnterTable = {},
-    _originNameSpanX = 0
+    _originNameSpanX = 0,
+    btn_GamePlay = nil
   },
   _eKeyGuideType = {
     NOT_SELECT = 0,

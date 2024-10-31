@@ -665,14 +665,4 @@ end
 function PaGlobal_MainQuest_GetPosX()
   return (Panel_MainQuest:GetPosX())
 end
-function PaGlobal_MainQuest_OpenForSiege()
-  if 0 ~= ToClient_GetUiInfo(CppEnums.PAGameUIType.PAGameUIPanel_MainQuest, 0, CppEnums.PanelSaveType.PanelSaveType_IsShow) then
-    Panel_MainQuest:SetShow(true, true)
-    Panel_LatestQuest:SetShow(true, true)
-  end
-end
-function PaGlobal_MainQuest_CloseForSiege()
-  Panel_MainQuest:SetShow(false)
-  Panel_LatestQuest:SetShow(false)
-end
 PaGlobal_MainQuest:initialize()

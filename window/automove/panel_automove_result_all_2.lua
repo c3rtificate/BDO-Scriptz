@@ -173,6 +173,9 @@ local ShowAutoMovePreview = function(isCurrentWarehouse)
       end
     end
   end
+  if actorKeyRaw == nil then
+    actorKeyRaw = 0
+  end
   if ToClient_requestAutoMovePreview(actorKeyRaw, waypointKeyTable, currentWaypointKey, Inventory_GetCurrentInventoryType()) == 0 then
     PaGlobal_AutoMove_Result_All:ResetSlot()
     PaGlobal_AutoMove_Result_All:SetData(actorKeyRaw, waypointKeyTable)

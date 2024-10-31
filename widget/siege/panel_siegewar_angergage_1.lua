@@ -48,9 +48,11 @@ function PaGlobal_SiegeWar_AngerGage:prepareOpen()
   local currentPoint = ToClient_SiegeAngerCurrentPoint()
   self:setPointUpdate(currentPoint)
   if ToClient_isConsole() == true then
-    PaGlobal_MainQuest_CloseForSiege()
+    Panel_MainQuest:SetIgnoreRenderAndEvent(true)
+    Panel_LatestQuest:SetIgnoreRenderAndEvent(true)
   else
-    FGlobal_QuestWidget_Close()
+    Panel_MainQuest:SetIgnoreRenderAndEvent(true)
+    Panel_CheckedQuest:SetIgnoreRenderAndEvent(true)
   end
   PaGlobal_SiegeWar_AngerGage:open()
   if _ContentsGroup_Siege2024 == true and PaGlobalFunc_VillageSiegeStateWidget_IsShow() == true then
@@ -75,9 +77,11 @@ function PaGlobal_SiegeWar_AngerGage:prepareClose()
     PaGlobalFunc_VillageSiegeStateWidget_UpdatePanelPosition()
   end
   if ToClient_isConsole() == true then
-    PaGlobal_MainQuest_OpenForSiege()
+    Panel_MainQuest:SetIgnoreRenderAndEvent(false)
+    Panel_LatestQuest:SetIgnoreRenderAndEvent(false)
   else
-    FGlobal_QuestWidget_OpenSeparate()
+    Panel_MainQuest:SetIgnoreRenderAndEvent(false)
+    Panel_CheckedQuest:SetIgnoreRenderAndEvent(false)
   end
 end
 function PaGlobal_SiegeWar_AngerGage:close()
@@ -123,11 +127,19 @@ function PaGlobal_SiegeWar_AngerGage:changeParticipant(isParticipant)
 end
 function PaGlobal_SiegeWar_AngerGage_UpdatePerFrame(deletaTime)
   if ToClient_isConsole() == true then
-    if true == Panel_MainQuest:GetShow() or true == Panel_LatestQuest:GetShow() then
-      PaGlobal_MainQuest_CloseForSiege()
+    if Panel_MainQuest ~= nil and Panel_MainQuest:isSetIgnoreRenderAndEvent() == false then
+      Panel_MainQuest:SetIgnoreRenderAndEvent(true)
     end
-  elseif true == Panel_CheckedQuest:GetShow() or true == Panel_MainQuest:GetShow() then
-    FGlobal_QuestWidget_Close()
+    if Panel_LatestQuest ~= nil and Panel_LatestQuest:isSetIgnoreRenderAndEvent() == false then
+      Panel_LatestQuest:SetIgnoreRenderAndEvent(true)
+    end
+  else
+    if Panel_MainQuest ~= nil and Panel_MainQuest:isSetIgnoreRenderAndEvent() == false then
+      Panel_MainQuest:SetIgnoreRenderAndEvent(true)
+    end
+    if Panel_CheckedQuest ~= nil and Panel_CheckedQuest:isSetIgnoreRenderAndEvent() == false then
+      Panel_CheckedQuest:SetIgnoreRenderAndEvent(true)
+    end
   end
 end
 function PaGlobal_SiegeWar_AngerGage:validate()

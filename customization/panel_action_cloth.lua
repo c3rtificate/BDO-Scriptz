@@ -92,6 +92,7 @@ function openClothUI(classType, showHelmet)
   CloseFrameForPoseUI()
   Panel_CustomizationCloth:SetPosX(Panel_CustomizationFrame:GetPosX())
   Panel_CustomizationCloth:SetPosY(Panel_CustomizationFrame:GetPosY())
+  PaGlobalFunc_Customization_ShowConfirmButton(true, 4)
 end
 function closeClothUI()
   if Panel_CustomizationTextureMenu:GetShow() then
@@ -104,6 +105,7 @@ function closeClothUI()
   clearContentList()
   CustomizationMainUIShow(true)
   selectPoseControl(0)
+  PaGlobalFunc_Customization_ShowConfirmButton(false)
 end
 function ShowHelmet()
   setShowHelmet(CheckButton_ShowHelmet:IsCheck())

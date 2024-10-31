@@ -54,6 +54,15 @@ function PaGlobal_Chatting_FunctionList_InviteParty()
   if ToClient_isPS5() == true then
     local chattingMessage = PaGlobalFunc_ChattingHistory_getCurrentSelectMessage()
     if PaGlobalFunc_Util_isMessageBlockedFromPSN(chattingMessage) == true then
+      local messageBoxMemo = PAGetString(Defines.StringSheet_GAME, "LUA_NOT_INVITE_PARTY")
+      local messageBoxData = {
+        title = PAGetString(Defines.StringSheet_GAME, "LUA_ITEMMARKET_MESSAGEBOX_ALERT"),
+        content = messageBoxMemo,
+        functionYes = MessageBox_Empty_function,
+        functionNo = MessageBox_Empty_function,
+        priority = CppEnums.PAUIMB_PRIORITY.PAUIMB_PRIORITY_LOW
+      }
+      MessageBox.showMessageBox(messageBoxData)
       return
     end
   end
@@ -93,6 +102,15 @@ function PaGlobal_Chatting_FunctionList_InviteLargeParty()
   if ToClient_isPS5() == true then
     local chattingMessage = PaGlobalFunc_ChattingHistory_getCurrentSelectMessage()
     if PaGlobalFunc_Util_isMessageBlockedFromPSN(chattingMessage) == true then
+      local messageBoxMemo = PAGetString(Defines.StringSheet_GAME, "LUA_NOT_INVITE_PARTY")
+      local messageBoxData = {
+        title = PAGetString(Defines.StringSheet_GAME, "LUA_ITEMMARKET_MESSAGEBOX_ALERT"),
+        content = messageBoxMemo,
+        functionYes = MessageBox_Empty_function,
+        functionNo = MessageBox_Empty_function,
+        priority = CppEnums.PAUIMB_PRIORITY.PAUIMB_PRIORITY_LOW
+      }
+      MessageBox.showMessageBox(messageBoxData)
       return
     end
   end
@@ -132,6 +150,15 @@ function PaGlobal_Chatting_FunctionList_AddFriend()
   if ToClient_isPS5() == true then
     local chattingMessage = PaGlobalFunc_ChattingHistory_getCurrentSelectMessage()
     if PaGlobalFunc_Util_isMessageBlockedFromPSN(chattingMessage) == true then
+      local messageBoxMemo = PAGetString(Defines.StringSheet_GAME, "LUA_NOT_INVITE_FRIEND")
+      local messageBoxData = {
+        title = PAGetString(Defines.StringSheet_GAME, "LUA_ITEMMARKET_MESSAGEBOX_ALERT"),
+        content = messageBoxMemo,
+        functionYes = MessageBox_Empty_function,
+        functionNo = MessageBox_Empty_function,
+        priority = CppEnums.PAUIMB_PRIORITY.PAUIMB_PRIORITY_LOW
+      }
+      MessageBox.showMessageBox(messageBoxData)
       return
     end
   end

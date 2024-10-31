@@ -60,6 +60,7 @@ PaGlobal_DailyStamp_All = {
   _attendanceTimeCheck = false,
   _isDailyChallengeShow = false,
   _isFirstAttendanceChecked = false,
+  _isFirstFiendEnterShowRewardUI = false,
   _yesterdayTabCount = 0,
   _dailyStampCount = 0,
   _dailyStampKeys = nil,

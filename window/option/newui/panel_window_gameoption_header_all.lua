@@ -213,6 +213,7 @@ PaGlobal_GameOption_All._elements = {
   HideFullUiByAttacked = {_defaultValue = true, _controlType = __ePAUIControl_CheckButton},
   GuildWarRefuse = {_defaultValue = false, _controlType = __ePAUIControl_CheckButton},
   SolareCustomGameRefuse = {_defaultValue = false, _controlType = __ePAUIControl_CheckButton},
+  FirstEnterCharacterViewMode = {_defaultValue = true, _controlType = __ePAUIControl_CheckButton},
   AudioResourceType = {_defaultValue = 0, _controlType = __ePAUIControl_RadioButton},
   ServiceResourceType = {_controlType = __ePAUIControl_RadioButton},
   UseChattingFilter = {_defaultValue = true, _controlType = __ePAUIControl_CheckButton},

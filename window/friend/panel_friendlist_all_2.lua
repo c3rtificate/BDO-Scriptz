@@ -429,7 +429,7 @@ function PaGlobal_FriendList_All:showPopupMenu(isShow)
       popupBG:SetPosX(posX)
     end
     ToClient_padSnapSetTargetGroup(popupBG)
-    ToClient_padSnapIgnoreGroupMove()
+    ToClient_padSnapIgnoreGroupMoveReal()
     PaGlobal_FriendList_All._ui.stc_PopupFunctionList[PaGlobal_FriendList_All._popupFunction.GROUP_MOVE]:SetShow(isGroupMove)
     PaGlobal_FriendList_All._ui.stc_PopupFunctionList[PaGlobal_FriendList_All._popupFunction.MESSANGER]:SetShow(isMessangerShow)
     local gapY = PaGlobal_FriendList_All._ui.stc_PopupFunctionList[0]:GetSizeY()
@@ -507,6 +507,8 @@ function PaGlobal_FriendList_All:hidePopupMenu()
     end
     PaGlobal_FriendList_All._friendListData._selectedFriendIndex = -1
     PaGlobal_FriendList_All._selectedXBFriendIndex = -1
+    PaGlobal_FriendList_All._currentKeyGuideType = PaGlobal_FriendList_All._keyGuideType._None
+    PaGlobal_FriendList_All:updateKeyGuides()
   end
 end
 function PaGlobal_FriendList_All:updateGroups()

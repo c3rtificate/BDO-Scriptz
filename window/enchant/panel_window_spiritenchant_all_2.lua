@@ -908,7 +908,11 @@ function PaGlobal_SpiritEnchant_All:setHasMaterialItem()
       local enchantLevel = itemSSW:get()._key:getEnchantLevel()
       local enchantAble = true
       if CppEnums.ItemClassifyType.eItemClassify_Accessory == itemSSW:getItemClassify() then
-        if 5 == enchantLevel then
+        if itemSSW:isKingAccessory() == true then
+          if enchantLevel == 10 then
+            enchantAble = false
+          end
+        elseif 5 == enchantLevel then
           enchantAble = false
         end
       elseif 20 == enchantLevel then

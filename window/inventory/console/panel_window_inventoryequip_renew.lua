@@ -218,7 +218,7 @@ PaGlobal_Inventory_All_ForConsole = {
   _familyInvenStartSlotIndex = 0,
   _isShowCoolTimeEffect = true,
   _famliyInvenMaxCapacity = 0,
-  _multiUseCount = 1,
+  _multiUseCount_s64 = toInt64(0, 1),
   _multiUseInventoryType = nil,
   _multiUseSlotNo = nil
 }
@@ -4589,13 +4589,13 @@ function PaGlobal_Inventory_All_ForConsole:onInventoryItemRClick(index)
       if ToClient_CheckAndNotifyNecessarySlotForOpenItemBox(inventoryType, slotNo, 1) ~= 0 then
         return
       end
-      self._multiUseCount = itemWrapper:getCount()
+      self._multiUseCount_s64 = itemWrapper:getCount()
       self._multiUseInventoryType = inventoryType
       self._multiUseSlotNo = slotNo
       if itemEnchantWrapper:getContentsEventParam2() == __eBoxItemUiType_NotUseMultiBoxItem then
-        self._multiUseCount = toInt64(0, 1)
+        self._multiUseCount_s64 = toInt64(0, 1)
       elseif itemEnchantWrapper:isStackable() == false and itemEnchantWrapper:getContentsEventType() == __eContentsType_ItemBox then
-        self._multiUseCount = ToClient_InventoryFindSlotListSize(inventoryType, itemWrapper:get():getKey())
+        self._multiUseCount_s64 = ToClient_InventoryFindSlotListSize(inventoryType, itemWrapper:get():getKey())
       end
       if itemEnchantWrapper:isPopupItem() == true then
         Panel_Tooltip_Item_hideTooltip()
@@ -7001,7 +7001,7 @@ function PaGlobal_InventoryEquip_ShowSeasonUpgradePossibleEffect(itemWrapper)
   return itemSSW:get():isChangeEquipItem()
 end
 function HandleClicked_Inventory_All_UseMultiBoxes()
-  Panel_NumberPad_Show(true, PaGlobal_Inventory_All_ForConsole._multiUseCount, PaGlobal_Inventory_All_ForConsole._multiUseInventoryType, HandleEvent_Inventory_All_UseMultiItems, false, PaGlobal_Inventory_All_ForConsole._multiUseSlotNo, false, nil, nil)
+  Panel_NumberPad_Show(true, PaGlobal_Inventory_All_ForConsole._multiUseCount_s64, PaGlobal_Inventory_All_ForConsole._multiUseInventoryType, HandleEvent_Inventory_All_UseMultiItems, false, PaGlobal_Inventory_All_ForConsole._multiUseSlotNo, false, nil, nil)
 end
 function HandleEvent_Inventory_All_UseMultiItems(count, inventoryType, slotNo)
   if Int64toInt32(count) <= 0 then
@@ -7010,7 +7010,7 @@ function HandleEvent_Inventory_All_UseMultiItems(count, inventoryType, slotNo)
   ToClient_SetMultiUseItemCount(count)
   Inventory_UseItemTargetSelf(inventoryType, slotNo, nil)
   ToClient_SetMultiUseItemCount(1)
-  PaGlobal_Inventory_All_ForConsole._multiUseSlotNo = 1
+  PaGlobal_Inventory_All_ForConsole._multiUseCount_s64 = toInt64(0, 1)
   PaGlobal_Inventory_All_ForConsole._multiUseInventoryType = nil
   PaGlobal_Inventory_All_ForConsole._multiUseSlotNo = nil
 end

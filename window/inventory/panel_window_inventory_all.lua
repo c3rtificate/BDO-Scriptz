@@ -242,7 +242,7 @@ PaGlobal_Inventory_All = {
   _deleteItemListCount = 0,
   _isConsole = false,
   _initialize = false,
-  _multiUseCount = 1,
+  _multiUseCount_s64 = toInt64(0, 1),
   _multiUseInventoryType = nil,
   _multiUseSlotNo = nil
 }

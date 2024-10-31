@@ -2806,6 +2806,7 @@ function preLoadGameUI_XB()
     RenderMode.eRenderMode_Dialog,
     RenderMode.eRenderMode_WorldMap
   }))
+  basicLoadUI("UI_Data/Widget/Tooltip/Panel_Window_CharacterStat_All.XML", "Panel_Window_CharacterStat_All", UIGroup.PAGameUIGroup_Windows)
 end
 function loadGameUI_XB()
   runLua("UI_Data/Script/Window/BlackBackground/Panel_Global_BlackBackground.lua")
@@ -3989,6 +3990,7 @@ function loadGameUI_XB()
     runLua("UI_Data/Script/Window/Enchant/Panel_MakeGoonWang_All.lua")
   end
   runLua("UI_Data/Script/Window/AutoMove/Panel_AutoMove_Result_All.lua")
+  runLua("UI_Data/Script/Widget/Tooltip/Panel_Window_CharacterStat_All.lua")
   isLuaLoadingComplete = true
 end
 function preloadCustomizationUI_XB()

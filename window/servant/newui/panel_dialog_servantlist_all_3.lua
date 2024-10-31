@@ -97,8 +97,10 @@ function FromClient_ServantList_All_Servant_UnSealFinish(servantNo, servantWhere
         MessageBox.showMessageBox(messageboxData)
       end
     end
+    if servantWhereType ~= CppEnums.ServantWhereType.ServantWhereTypeGuild then
+      HandleEventOn_ServantList_All_SelectServant(PaGlobal_ServantList_All._ENUM_TYPEUNSEALED, -1)
+    end
   end
-  HandleEventOn_ServantList_All_SelectServant(PaGlobal_ServantList_All._ENUM_TYPEUNSEALED, -1)
   FGlobal_Window_Servant_Update()
 end
 function FromClient_ServantList_All_ServantToReward(servantWhereType)

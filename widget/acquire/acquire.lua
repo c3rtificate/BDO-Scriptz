@@ -426,6 +426,9 @@ local function Acquire_SetData(notifyMsg)
   elseif Acquire_Enum.GetManufacture == arcType then
     local itemEnchantSSW = notifyMsg:getItemEnchantStaticStatusWrapper()
     if nil ~= itemEnchantSSW then
+      if ToClient_IsSpecialEnchantItem(itemEnchantSSW:get()._key) == true and itemEnchantSSW:isKingAccessory() == true then
+        FromClient_notifyGetItem(__eBroadCastNotiFyType_SuccessManufacture, getSelfPlayer():getName(), nil, nil, nil, itemEnchantSSW, nil, nil)
+      end
       arcIconPath = itemEnchantSSW:getIconPath()
       arcObjectMsg = itemEnchantSSW:getName()
       arcItemGrade = itemEnchantSSW:getGradeType()

@@ -12,6 +12,7 @@ function PaGlobal_VillageSiegeStateWidget:initialize()
   self._ui._lst_siegeTentList:changeAnimationSpeed(100)
   self:registEventHandler()
   self:validate()
+  self._isConsole = ToClient_isConsole()
   self._initialize = true
   local isVillageSiegeBeing = ToClient_IsAnySiegeBeingOfMyChannel() == true and ToClient_IsVillageSiegeBeing() == true
   if isVillageSiegeBeing == true and ToClient_GetMinorSiegeMode() == __eMinorSiegeModeNoReady then
@@ -45,10 +46,12 @@ function PaGlobal_VillageSiegeStateWidget:prepareOpen()
   if ToClient_GetMinorSiegeMode() == __eMinorSiegeModeReady then
     return
   end
-  if ToClient_isConsole() == true then
-    PaGlobal_MainQuest_OpenForSiege()
+  if self._isConsole == true then
+    Panel_MainQuest:SetIgnoreRenderAndEvent(true)
+    Panel_LatestQuest:SetIgnoreRenderAndEvent(true)
   else
-    FGlobal_QuestWidget_Close()
+    Panel_MainQuest:SetIgnoreRenderAndEvent(true)
+    Panel_CheckedQuest:SetIgnoreRenderAndEvent(true)
   end
   self:updateWidgetTitleText()
   self:updateSiegeTentList(true)
@@ -67,10 +70,12 @@ function PaGlobal_VillageSiegeStateWidget:prepareClose()
   end
   self._accumulatedDeltaTime = 0
   self:close()
-  if ToClient_isConsole() == true then
-    PaGlobal_MainQuest_OpenForSiege()
+  if self._isConsole == true then
+    Panel_MainQuest:SetIgnoreRenderAndEvent(false)
+    Panel_LatestQuest:SetIgnoreRenderAndEvent(false)
   else
-    FGlobal_QuestWidget_OpenSeparate()
+    Panel_MainQuest:SetIgnoreRenderAndEvent(false)
+    Panel_CheckedQuest:SetIgnoreRenderAndEvent(false)
   end
 end
 function PaGlobal_VillageSiegeStateWidget:close()
@@ -95,12 +100,20 @@ function PaGlobal_VillageSiegeStateWidget:update(deltaTime)
   else
     self._ui._lst_siegeTentList:requestUpdateVisible()
   end
-  if ToClient_isConsole() == true then
-    if true == Panel_MainQuest:GetShow() or true == Panel_LatestQuest:GetShow() then
-      PaGlobal_MainQuest_CloseForSiege()
+  if self._isConsole == true then
+    if Panel_MainQuest ~= nil and Panel_MainQuest:isSetIgnoreRenderAndEvent() == false then
+      Panel_MainQuest:SetIgnoreRenderAndEvent(true)
     end
-  elseif true == Panel_CheckedQuest:GetShow() or true == Panel_MainQuest:GetShow() then
-    FGlobal_QuestWidget_Close()
+    if Panel_LatestQuest ~= nil and Panel_LatestQuest:isSetIgnoreRenderAndEvent() == false then
+      Panel_LatestQuest:SetIgnoreRenderAndEvent(true)
+    end
+  else
+    if Panel_MainQuest ~= nil and Panel_MainQuest:isSetIgnoreRenderAndEvent() == false then
+      Panel_MainQuest:SetIgnoreRenderAndEvent(true)
+    end
+    if Panel_CheckedQuest ~= nil and Panel_CheckedQuest:isSetIgnoreRenderAndEvent() == false then
+      Panel_CheckedQuest:SetIgnoreRenderAndEvent(true)
+    end
   end
 end
 function PaGlobal_VillageSiegeStateWidget:updatePanelPosition()
@@ -142,7 +155,7 @@ function PaGlobal_VillageSiegeStateWidget:updateSiegeTentList(doCreateChildConte
   local prevListSizeY = self._ui._lst_siegeTentList:GetSizeY()
   local siegeTentCount = ToClient_GetBuildingInfoCountSiege2024()
   local siegeTentViewMaxCount = 6
-  if ToClient_isConsole() == true then
+  if self._isConsole == true then
     siegeTentViewMaxCount = 15
   end
   local siegeTentListViewCount = math.min(siegeTentCount, siegeTentViewMaxCount)
@@ -184,20 +197,36 @@ function PaGlobal_VillageSiegeStateWidget:createSiegeTentListContent(content, ke
   local prg_red = UI.getChildControl(content, "CircularProgress_Red")
   local txt_tentName = UI.getChildControl(content, "StaticText_NodeName")
   local txt_subName = UI.getChildControl(content, "StaticText_GuildName")
+  local txt_leftTime = UI.getChildControl(content, "StaticText_LeftTime")
   local btn_navi = UI.getChildControl(content, "Button_Navi")
   local prg_hp = UI.getChildControl(content, "Progress2_Hp")
   local isHideSiege = siegeTentWrapper:isHideSiege()
   local endState = siegeTentWrapper:getEndState()
   local tentName = regionWrapper:getAreaName()
   local guildName = siegeTentWrapper:getGuildName()
+  local remainTime_s64 = siegeTentWrapper:getRemainTime()
+  local remainTime = PATime(remainTime_s64)
+  local remainMinute = Int64toInt32(remainTime:GetMinute())
+  local remainSecond = Int64toInt32(remainTime:GetSecond())
+  local occupyRemainTime_s64 = siegeTentWrapper:getOccupyRemainTime()
+  local occupyRemainTime = PATime(occupyRemainTime_s64)
+  local occupyRemainTimeString = ""
+  local occupyRemainMinute = Int64toInt32(occupyRemainTime:GetMinute())
+  local occupyRemainSecond = Int64toInt32(occupyRemainTime:GetSecond())
+  local territoryKeyRaw = ToClient_GetStartSiegeTerritoryKey()
   txt_tentName:SetText(tentName)
+  txt_leftTime:SetShow(false)
   if endState == __eBuildingInfoStateSiege2024_NotEnd then
     content:SetMonoTone(false, false)
-    btn_navi:SetShow(ToClient_isConsole() == false)
+    btn_navi:SetShow(self._isConsole == false)
     btn_navi:addInputEvent("Mouse_LUp", "HandleEventLUp_VillageSiegeStateWidget_OnClickedNaviButton(" .. siegeTentIndex .. ")")
     if isHideSiege == true then
       prg_red:SetShow(false)
       prg_yellow:SetShow(false)
+      if occupyRemainMinute * 60 + occupyRemainSecond ~= 0 and ToClient_GetSiege2024TerritoryParticiapteGuildCount(territoryKeyRaw) ~= 2 then
+        txt_leftTime:SetShow(true)
+        occupyRemainTimeString = tostring(occupyRemainMinute) .. PAGetString(Defines.StringSheet_RESOURCE, "PANEL_GLOBAL_MINUTE") .. " " .. tostring(occupyRemainSecond) .. PAGetString(Defines.StringSheet_RESOURCE, "PANEL_GLOBAL_SECOND")
+      end
     else
       local remainTimePercent = siegeTentWrapper:getRemainTimeRate() * 100
       if remainTimePercent <= 25 then
@@ -208,6 +237,14 @@ function PaGlobal_VillageSiegeStateWidget:createSiegeTentListContent(content, ke
         prg_red:SetShow(false)
         prg_yellow:SetShow(true)
         prg_yellow:SetProgressRate(remainTimePercent)
+      end
+      if occupyRemainMinute * 60 + occupyRemainSecond ~= 0 and ToClient_GetSiege2024TerritoryParticiapteGuildCount(territoryKeyRaw) ~= 2 then
+        txt_leftTime:SetShow(true)
+        if remainMinute * 60 + remainSecond > occupyRemainMinute * 60 + occupyRemainSecond then
+          occupyRemainTimeString = tostring(occupyRemainMinute) .. PAGetString(Defines.StringSheet_RESOURCE, "PANEL_GLOBAL_MINUTE") .. " " .. tostring(occupyRemainSecond) .. PAGetString(Defines.StringSheet_RESOURCE, "PANEL_GLOBAL_SECOND")
+        else
+          occupyRemainTimeString = tostring(remainMinute) .. PAGetString(Defines.StringSheet_RESOURCE, "PANEL_GLOBAL_MINUTE") .. " " .. tostring(remainSecond) .. PAGetString(Defines.StringSheet_RESOURCE, "PANEL_GLOBAL_SECOND")
+        end
       end
     end
     prg_hp:SetShow(true)
@@ -236,6 +273,7 @@ function PaGlobal_VillageSiegeStateWidget:createSiegeTentListContent(content, ke
     UI.ASSERT_NAME(false, "\235\185\132\236\160\149\236\131\129\236\158\133\235\139\136\235\139\164. \235\176\156\236\131\157\236\139\156 \234\188\173 \236\160\156\235\179\180\237\149\180\236\163\188\236\132\184\236\154\148.", "\236\157\180\236\163\188")
     return
   end
+  txt_leftTime:SetText(occupyRemainTimeString)
   content:addInputEvent("Mouse_On", "HandleEventLUp_VillageSiegeStateWidget_OnOutTentContent(true, " .. siegeTentIndex .. ")")
   content:addInputEvent("Mouse_Out", "HandleEventLUp_VillageSiegeStateWidget_OnOutTentContent(false, " .. siegeTentIndex .. ")")
 end

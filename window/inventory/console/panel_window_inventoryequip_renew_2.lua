@@ -474,13 +474,13 @@ function PaGlobal_Inventory_All_ForConsole:onPadEventUpACategoryInven(slotNo)
       if ToClient_CheckAndNotifyNecessarySlotForOpenItemBox(inventoryType, slotNo, 1) ~= 0 then
         return
       end
-      self._multiUseCount = itemWrapper:getCount()
+      self._multiUseCount_s64 = itemWrapper:getCount()
       self._multiUseInventoryType = inventoryType
       self._multiUseSlotNo = slotNo
       if itemEnchantWrapper:getContentsEventParam2() == __eBoxItemUiType_NotUseMultiBoxItem then
-        self._multiUseCount = toInt64(0, 1)
+        self._multiUseCount_s64 = toInt64(0, 1)
       elseif itemEnchantWrapper:isStackable() == false and itemEnchantWrapper:getContentsEventType() == __eContentsType_ItemBox then
-        self._multiUseCount = ToClient_InventoryFindSlotListSize(inventoryType, itemWrapper:get():getKey())
+        self._multiUseCount_s64 = ToClient_InventoryFindSlotListSize(inventoryType, itemWrapper:get():getKey())
       end
       if itemEnchantWrapper:isPopupItem() == true then
         Panel_Tooltip_Item_hideTooltip()

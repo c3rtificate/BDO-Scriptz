@@ -124,6 +124,7 @@ function PaGlobal_ServantInfo_All:initialize()
     slot.icon:SetPosX(slotControl:GetPosX())
     slot.icon:SetPosY(slotControl:GetPosY())
     slot.icon:SetShow(false)
+    slotControl:addInputEvent("Mouse_Out", "Panel_Tooltip_Item_hideTooltip()")
     self._ui._servantEquipSlotList[slotNo] = {
       _slot = slot,
       _slotControl = slotControl,
@@ -148,6 +149,7 @@ function PaGlobal_ServantInfo_All:initialize()
     slot.icon:SetPosX(slotControl:GetPosX())
     slot.icon:SetPosY(slotControl:GetPosY())
     slot.icon:SetShow(false)
+    slotControl:addInputEvent("Mouse_Out", "Panel_Tooltip_Item_hideTooltip()")
     self._ui._servantPearlEquipSlotList[slotNo] = {
       _slot = slot,
       _slotControl = slotControl,
@@ -645,8 +647,12 @@ function PaGlobal_ServantInfo_All:updateSeaVehicle()
   if nil == self._currentVehicleIndexNo then
     self._currentSlotType = 1
   end
+  local isGuild = PaGlobalFunc_ServantFunction_All_GetIsGuild()
+  if isGuild == true then
+    self._currentSlotType = 0
+  end
   if 0 == self._currentSlotType then
-    if true == PaGlobalFunc_ServantFunction_All_GetIsGuild() then
+    if isGuild == true then
       servantInfo = guildStable_getServant(self._currentVehicleIndexNo)
     else
       servantInfo = stable_getServant(self._currentVehicleIndexNo)
@@ -1693,11 +1699,11 @@ function PaGlobal_ServantInfo_All:updateUserInvenSlot()
   local sealed = 0
   local unsealed = 1
   local servantInfo = PaGlobal_ServantInfo_All:GetServantWrapper(self._currentVehicleIndexNo, self._currentSlotType)
+  if servantInfo == nil then
+    self._ui._stc_userInventory_inStable:SetShow(false)
+    return
+  end
   if PaGlobal_ServantInfo_All._currentSlotType == sealed then
-    if nil == servantInfo then
-      self._ui._stc_userInventory_inStable:SetShow(false)
-      return
-    end
     local regionInfo = getRegionInfoByPosition(getSelfPlayer():get():getPosition())
     local regionName = regionInfo:getAreaName()
     if servantInfo:getRegionName() ~= regionName or servantInfo:isChangingRegion() == true then
@@ -1727,8 +1733,6 @@ function PaGlobal_ServantInfo_All:updateUserInvenSlot()
     sortInvenType = __eInventorySortWhereType_CashInventoryForCharacter
   end
   selfPlayer:sortInventorySlotNoNew(sortInvenType, __eInventorySortPropertyType_Auto, __eInventorySortByType_Ascending)
-  local servantKind = servantInfo:getServantKind()
-  local servantKindSub = servantInfo:getServantKindSub()
   for ii = 0, inventoryUseSize do
     local realInvenSlotNo = selfPlayer:getRealInventorySlotNoNew(sortInvenType, ii)
     local itemWrapper = getInventoryItemByType(invenWhereType, realInvenSlotNo)
@@ -1749,7 +1753,7 @@ function PaGlobal_ServantInfo_All:updateUserInvenSlot()
           self._userInvenSlot[slotNo].icon:SetColor(Defines.Color.C_FFFFFFFF)
           if itemSSW ~= nil then
             local itemStatic = itemSSW:get()
-            if itemStatic:isServantTypeUsable(servantKind, servantKindSub) == false then
+            if itemStatic:isServantTypeUsable(servantInfo:getServantKind(), servantInfo:getServantKindSub()) == false then
               self._userInvenSlot[slotNo].classEquipBG:SetShow(true)
               if _ContentsGroup_ChinaFontColor == true then
                 self._userInvenSlot[slotNo].icon:SetColor(Defines.Color.C_FF6195BD)

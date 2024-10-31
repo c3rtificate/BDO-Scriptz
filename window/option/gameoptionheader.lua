@@ -124,6 +124,7 @@ PaGlobal_Option = {
     RadarArrow = {_defaultValue = false, _controlType = __ePAUIControl_CheckButton},
     RotateRadarMode = {_defaultValue = false, _controlType = __ePAUIControl_CheckButton},
     HideWindowByAttacked = {_defaultValue = true, _controlType = __ePAUIControl_CheckButton},
+    FirstEnterCharacterViewMode = {_defaultValue = true, _controlType = __ePAUIControl_CheckButton},
     AudioResourceType = {_defaultValue = 0, _controlType = __ePAUIControl_RadioButton},
     ServiceResourceType = {_controlType = __ePAUIControl_RadioButton},
     UseChattingFilter = {_defaultValue = true, _controlType = __ePAUIControl_CheckButton},

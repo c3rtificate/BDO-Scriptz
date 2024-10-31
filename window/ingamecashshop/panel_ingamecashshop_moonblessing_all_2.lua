@@ -188,6 +188,9 @@ function PaGlobal_CashMileage_ChangeConsumePearl(pearlValue)
   else
     PaGlobal_IngameCashShopMoonBlessing_All:update(self.MILEAGE_TYPE.CONSUMED)
   end
+  if self._mileageInfoCnt == 0 then
+    return
+  end
   if false == PaGlobalFunc_IngameCashShopMoonBlessing_All_GetShow() then
     PaGlobal_IngameCashShopMoonBlessing_All:prepareOpen()
   end

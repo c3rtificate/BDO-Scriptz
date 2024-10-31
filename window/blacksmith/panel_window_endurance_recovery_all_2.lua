@@ -227,7 +227,6 @@ function HandleEventLUp_Endurance_Recovery_All_RecoveryListControlCreate(control
   local itemIcon = UI.getChildControl(itemSlotBg, "Static_ItemIcon")
   local itemText = UI.getChildControl(itemSlotBg, "StaticText_ItemName")
   local itemInfoValue = UI.getChildControl(itemSlotBg, "StaticText_InfoValue")
-  local itemEnchant = UI.getChildControl(itemIcon, "Static_Text_Slot_Enchant_value")
   local text_equipment = UI.getChildControl(btn_item, "StaticText_Equip")
   local hammerIcon = UI.getChildControl(btn_item, "Static_Hammer")
   if nil == PaGlobal_Endurance_Recovery_All._equipNo[key_32] then
@@ -277,9 +276,6 @@ function HandleEventLUp_Endurance_Recovery_All_RecoveryListControlCreate(control
     slot:setItem(itemWrapper)
   end
   itemText:SetText(itemName)
-  if nil ~= PaGlobal_Endurance_Recovery_All._recoveryItemInfo.itemEnchantLevle[key_32] then
-    itemEnchant:SetText(PaGlobal_Endurance_Recovery_All._recoveryItemInfo.itemEnchantLevle[key_32])
-  end
   if true == PaGlobal_Endurance_Recovery_All._recoveryItemInfo.isRecoveryEquip[key_32] then
     hammerIcon:SetShow(true)
     btn_item:SetCheck(true)
@@ -300,7 +296,6 @@ function HandleEventLUp_Endurance_Recovery_All_MaterialListControlCreate(control
   local itemIcon = UI.getChildControl(itemSlotBg, "Static_ItemIcon")
   local itemText = UI.getChildControl(itemSlotBg, "StaticText_ItemName")
   local itemCntText = UI.getChildControl(btn_item, "StaticText_ItemCnt")
-  local itemEnchant = UI.getChildControl(itemIcon, "Static_Text_Slot_Enchant_value")
   local itemName = PaGlobal_Endurance_Recovery_All._materialItemInfo.name[key_32]
   local itemIconPath = PaGlobal_Endurance_Recovery_All._materialItemInfo.iconPath[key_32]
   local itemCnt = PaGlobal_Endurance_Recovery_All._materialItemInfo.itemCnt[key_32]
@@ -334,9 +329,6 @@ function HandleEventLUp_Endurance_Recovery_All_MaterialListControlCreate(control
   SlotItem.reInclude(slot, "Endurance_Recovery_All_MaterialSlot_", 0, itemIcon, PaGlobal_Endurance_Recovery_All._slotConfig)
   slot:clearItem()
   slot:setItem(itemWrapper)
-  if nil ~= PaGlobal_Endurance_Recovery_All._materialItemInfo.itemEnchantLevle[key_32] then
-    itemEnchant:SetText(PaGlobal_Endurance_Recovery_All._materialItemInfo.itemEnchantLevle[key_32])
-  end
   if true == PaGlobal_Endurance_Recovery_All._materialItemInfo.isMaterialEquip[key_32] then
     btn_item:SetCheck(true)
   end

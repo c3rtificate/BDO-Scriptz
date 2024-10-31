@@ -699,3 +699,6 @@ end
 function PaGlobal_GameOption_All._elements.UseShowLootingPopupMenu:get(wrapper)
   return wrapper:getShowLootingPopupMenu()
 end
+function PaGlobal_GameOption_All._elements.FirstEnterCharacterViewMode:get(wrapper)
+  return wrapper:getFirstEnterCharacterViewMode()
+end

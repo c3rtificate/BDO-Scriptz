@@ -3731,6 +3731,7 @@ function preLoadGameUI_PC()
     RenderMode.eRenderMode_Loading
   }))
   loadUI("UI_Data/Window/MessageBox/Panel_Window_NetworkAlert_All.XML", "Panel_Window_NetworkAlert_All", UIGroup.PAGameUIGroup_Tutorial, SETRENDERMODE_BITSET_ALLRENDER())
+  basicLoadUI("UI_Data/Widget/Tooltip/Panel_Window_CharacterStat_All.XML", "Panel_Window_CharacterStat_All", UIGroup.PAGameUIGroup_Windows)
 end
 function loadGameUI_PC()
   if _ContentsGroup_RenewUI then
@@ -5322,6 +5323,7 @@ function loadGameUI_PC()
   runLua("UI_Data/Script/Window/AutoMove/Panel_AutoMove_Result_All.lua")
   runLua("UI_Data/Script/Panel_Loading.lua")
   runLua("UI_Data/Script/Window/MessageBox/Panel_Window_NetworkAlert_All.lua")
+  runLua("UI_Data/Script/Widget/Tooltip/Panel_Window_CharacterStat_All.lua")
   LoadingPanel_Init()
   isLuaLoadingComplete = true
 end

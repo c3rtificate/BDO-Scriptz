@@ -795,6 +795,9 @@ PaGlobal_GameOption_All._frames = {
         _element = PaGlobal_GameOption_All._elements.UseLedAnimation
       },
       {
+        _element = PaGlobal_GameOption_All._elements.FirstEnterCharacterViewMode
+      },
+      {
         _element = PaGlobal_GameOption_All._elements.AutoRunCameraRotation
       },
       {

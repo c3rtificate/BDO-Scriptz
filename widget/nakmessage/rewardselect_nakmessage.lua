@@ -173,6 +173,16 @@ local elementalBossBuff = {
 elementalBossBuff._bg = UI.getChildControl(Panel_RewardSelect_NakMessage, "Static_ElementalBoss_Buff")
 elementalBossBuff._txt_main = UI.getChildControl(elementalBossBuff._bg, "StaticText_Title")
 elementalBossBuff._txt_sub = UI.getChildControl(elementalBossBuff._bg, "StaticText_Desc")
+local kingAccessory = {
+  _bg = nil,
+  _txt_sub = nil,
+  _txt_main = nil,
+  _icon = nil
+}
+kingAccessory._bg = UI.getChildControl(Panel_RewardSelect_NakMessage, "Static_Krogdalo_SpecialStable")
+kingAccessory._txt_sub = UI.getChildControl(kingAccessory._bg, "StaticText_Sub")
+kingAccessory._txt_main = UI.getChildControl(kingAccessory._bg, "MultilineText")
+kingAccessory._icon = UI.getChildControl(kingAccessory._bg, "Static_ItemIcon")
 local elfWarGuild = UI.getChildControl(Panel_RewardSelect_NakMessage, "Static_ElfWar_Leader")
 local elfWarMercenary = UI.getChildControl(Panel_RewardSelect_NakMessage, "Static_ElfWar_Mercenary")
 local elfWarStart = UI.getChildControl(Panel_RewardSelect_NakMessage, "Static_ElfWar_Start")
@@ -208,6 +218,9 @@ telescope._bg:SetShow(false)
 telescope._txt_sub:SetShow(false)
 telescope._txt_main:SetShow(false)
 telescope._icon:SetShow(false)
+kingAccessory._bg:SetShow(false)
+kingAccessory._txt_sub:SetShow(false)
+kingAccessory._txt_main:SetShow(false)
 elementalBossBuff._bg:SetShow(false)
 elementalBossBuff._txt_main:SetShow(false)
 elementalBossBuff._txt_sub:SetShow(false)
@@ -398,7 +411,8 @@ local messageType = {
   morningLandWorldBossUturi = 184,
   morningLandWorldBossSangun = 185,
   morningLandWorldBossDuoksini = 186,
-  morningLandWorldBossGoldenPig = 187
+  morningLandWorldBossGoldenPig = 187,
+  KingAccessory = 188
 }
 local messageTexture = {
   [messageType.normal] = "New_UI_Common_forLua/Widget/NakMessage/Alert_01.dds",
@@ -574,7 +588,8 @@ local messageTexture = {
   [messageType.morningLandWorldBossUturi] = "new_ui_common_forlua/widget/nakmessage/MorningLand2_Boss_Uturi.dds",
   [messageType.morningLandWorldBossSangun] = "new_ui_common_forlua/widget/nakmessage/MorningLand2_Boss_Sangun.dds",
   [messageType.morningLandWorldBossDuoksini] = "new_ui_common_forlua/widget/nakmessage/MorningLand2_Boss_Duoksini.dds",
-  [messageType.morningLandWorldBossGoldenPig] = "new_ui_common_forlua/widget/nakmessage/MorningLand2_Boss_GoldenPigKing.dds"
+  [messageType.morningLandWorldBossGoldenPig] = "new_ui_common_forlua/widget/nakmessage/MorningLand2_Boss_GoldenPigKing.dds",
+  [messageType.KingAccessory] = "new_ui_common_forlua/widget/nakmessage/Collection_Nak_SpecialStable.dds"
 }
 local npcTexture = {
   [messageType.richMerchantRing] = {
@@ -741,7 +756,8 @@ local gameOptionIgnoreMessageType = {
   messageType.morningLandWorldBossUturi,
   messageType.morningLandWorldBossSangun,
   messageType.morningLandWorldBossDuoksini,
-  messageType.morningLandWorldBossGoldenPig
+  messageType.morningLandWorldBossGoldenPig,
+  messageType.KingAccessory
 }
 local worldBossName = {
   [messageType.worldBossjinKzaka] = PAGetString(Defines.StringSheet_GAME, "LUA_WORLDBOSS_JINKZAKA_NAME"),
@@ -2284,6 +2300,21 @@ function NakMessageUpdate_For_RewardSelect(updateTime)
         Panel_RewardSelect_NakMessage:SetShow(true)
         eventBossUIOff()
         eventDrawUIOff()
+      elseif messageType.KingAccessory == MessageData._Msg[processIndex].type then
+        stc_NoticeImage:SetShow(false)
+        stc_bossImage:SetShow(false)
+        belmornBG:SetShow(false)
+        belmornText:SetShow(false)
+        _text_Msg:SetShow(false)
+        _text_MsgSub:SetShow(false)
+        bigNakMsg:SetShow(false)
+        competitionBg:SetShow(false)
+        competitionMsg:SetShow(false)
+        competitionCount:SetShow(false)
+        stc_worldBossNewJin:SetShow(false)
+        Panel_RewardSelect_NakMessage:SetShow(true)
+        eventBossUIOff()
+        eventDrawUIOff()
       else
         bigNakMsg:SetShow(true)
         _text_Msg:SetShow(true)
@@ -2797,6 +2828,8 @@ function NakMessageUpdate_For_RewardSelect(updateTime)
         PaGlobal_RewardSelect_SetNak_Siege2024Raffle(MessageData._Msg[processIndex].type, MessageData._Msg[processIndex].msg)
       elseif messageType.morningLandWorldBossBulgasal == MessageData._Msg[processIndex].type or messageType.morningLandWorldBossUturi == MessageData._Msg[processIndex].type or messageType.morningLandWorldBossSangun == MessageData._Msg[processIndex].type or messageType.morningLandWorldBossDuoksini == MessageData._Msg[processIndex].type or messageType.morningLandWorldBossGoldenPig == MessageData._Msg[processIndex].type then
         PaGlobal_RewardSelect_SetNak_MorningLandWorldBoss(MessageData._Msg[processIndex].type, MessageData._Msg[processIndex].msg)
+      elseif messageType.KingAccessory == MessageData._Msg[processIndex].type then
+        PaGlobal_RewardSelect_SetNak_KingAccessory(MessageData._Msg[processIndex].msg)
       elseif "" == MessageData._Msg[processIndex].msg.sub then
         _text_Msg:SetSpanSize(_text_Msg:GetSpanSize().x, 25)
         _text_MsgSub:SetSpanSize(_text_MsgSub:GetSpanSize().x, 38)
@@ -2932,6 +2965,7 @@ function FromClient_notifyGetItem(notifyType, playerName, fromName, iconPath, pa
   local itemName = ""
   local itemClassify, itemKey
   local isSpecialItem = false
+  local isKingAccessory = false
   local isSkipNak = false
   if nil ~= itemStaticWrapper and itemStaticWrapper:isSet() then
     itemName = itemStaticWrapper:getName()
@@ -2939,6 +2973,7 @@ function FromClient_notifyGetItem(notifyType, playerName, fromName, iconPath, pa
     enchantLevel = itemStaticWrapper:get()._key:getEnchantLevel()
     itemKey = itemStaticWrapper:get()._key:getItemKey()
     isSpecialItem = itemStaticWrapper:isSpecialEnchantItem()
+    isKingAccessory = itemStaticWrapper:isKingAccessory()
   end
   for index = 1, 5 do
     huntingRanker[index]:SetShow(false)
@@ -2975,19 +3010,19 @@ function FromClient_notifyGetItem(notifyType, playerName, fromName, iconPath, pa
     itemIcon = "Icon/" .. itemStaticWrapper:getIconPath()
   elseif notifyType == __eBroadCastNotifyType_EnchantItem or notifyType == __eBroadCastNotifyType_PromotionItem then
     if nil ~= Int64toInt32(param1) and 0 ~= Int64toInt32(param1) then
-      if Int64toInt32(param1) >= 16 then
-        if false == isSpecialItem then
-          itemName = HighEnchantLevel_ReplaceString(Int64toInt32(param1)) .. " " .. itemName
-        end
-      elseif false == isSpecialItem then
-        if 4 == itemClassify then
-          itemName = HighEnchantLevel_ReplaceString(Int64toInt32(param1) + 15) .. " " .. itemName
-        else
-          itemName = "+" .. Int64toInt32(param1) .. " " .. itemName
-        end
-      end
-      if notifyType == __eBroadCastNotifyType_EnchantItem and CppEnums.ItemClassifyType.eItemClassify_Accessory ~= itemClassify and nil ~= Int64toInt32(param1) and 0 ~= Int64toInt32(param1) and Int64toInt32(param1) < 19 then
+      enchantLevel = Int64toInt32(param1)
+      if notifyType == __eBroadCastNotifyType_EnchantItem and (CppEnums.ItemClassifyType.eItemClassify_Accessory ~= itemClassify or CppEnums.ItemClassifyType.eItemClassify_Accessory == itemClassify and isSpecialItem == true and isKingAccessory == false) and nil ~= enchantLevel and 0 ~= enchantLevel and enchantLevel < 19 then
         isSkipNak = true
+      end
+      if 0 ~= enchantLevel then
+        if itemClassify == CppEnums.ItemClassifyType.eItemClassify_Accessory then
+          enchantLevel = enchantLevel + 15
+        end
+        if enchantLevel > 15 then
+          itemName = HighEnchantLevel_ReplaceString(enchantLevel) .. " " .. itemName
+        else
+          itemName = "+" .. tostring(enchantLevel) .. " " .. itemName
+        end
       end
     end
     message = PAGetStringParam2(Defines.StringSheet_GAME, "LUA_REWARDSELECT_NAKMESSAGE_NOTIFY_COMMON_MSG", "playerName", playerName, "itemName", itemName)
@@ -3002,20 +3037,26 @@ function FromClient_notifyGetItem(notifyType, playerName, fromName, iconPath, pa
     subMessage = ""
     itemIcon = iconPath
   elseif notifyType == __eBroadCastNotifyType_EnchantItemFail then
-    if 11 == itemClassify then
+    if itemClassify == 11 then
       return
     end
-    if false == isSpecialItem then
-      if 4 == itemClassify then
-        itemName = HighEnchantLevel_ReplaceString(Int64toInt32(enchantLevel) + 15) .. " " .. itemName
+    if isSpecialItem == true and isKingAccessory == false then
+      enchantLevel = 0
+    end
+    if enchantLevel ~= 0 then
+      if itemClassify == CppEnums.ItemClassifyType.eItemClassify_Accessory then
+        enchantLevel = enchantLevel + 15
+      end
+      if enchantLevel > 15 then
+        itemName = HighEnchantLevel_ReplaceString(enchantLevel) .. " " .. itemName
       else
-        itemName = HighEnchantLevel_ReplaceString(Int64toInt32(enchantLevel)) .. " " .. itemName
+        itemName = "+" .. tostring(enchantLevel) .. " " .. itemName
       end
     end
     message = PAGetStringParam2(Defines.StringSheet_GAME, "LUA_REWARDSELECT_NAKMESSAGE_NOTIFY_ENCHANTFAIL_MSG", "playerName", playerName, "itemName", itemName)
     subMessage = PAGetString(Defines.StringSheet_GAME, "LUA_REWARDSELECT_NAKMESSAGE_NOTIFY_ENCHANTENCHANT_SUBMSG")
     itemIcon = "Icon/" .. itemStaticWrapper:getIconPath()
-    if CppEnums.ItemClassifyType.eItemClassify_Accessory ~= itemClassify and nil ~= Int64toInt32(param1) and 0 ~= Int64toInt32(param1) then
+    if CppEnums.ItemClassifyType.eItemClassify_Accessory ~= itemClassify and Int64toInt32(param1) ~= nil and Int64toInt32(param1) ~= 0 then
       if false == isEnchantDown then
         if Int64toInt32(param1) < 19 then
           isSkipNak = true
@@ -3083,6 +3124,19 @@ function FromClient_notifyGetItem(notifyType, playerName, fromName, iconPath, pa
   elseif notifyType == __eBroadCastNotiFyType_GetThousandInsam then
     message = PAGetStringParam1(Defines.StringSheet_GAME, "LUA_TOOLTIP_SANSAM_NAKMSG", "userNickName", playerName)
     subMessage = ""
+    itemIcon = "Icon/" .. itemStaticWrapper:getIconPath()
+  elseif notifyType == __eBroadCastNotiFyType_SuccessManufacture then
+    if enchantLevel ~= 0 then
+      enchantLevel = enchantLevel + 15
+      if enchantLevel > 15 then
+        itemName = HighEnchantLevel_ReplaceString(enchantLevel) .. " " .. itemName
+      else
+        itemName = "+" .. tostring(enchantLevel) .. " " .. itemName
+      end
+    end
+    local resultItemName = PAGlobalFunc_ReturnAppliedItemColorTextForNewUI(itemName, itemStaticWrapper)
+    message = PAGetStringParam2(Defines.StringSheet_GAME, "LUA_REWARDNAKMESSAGE_KARAZAD_MSG_2", "name", playerName, "itemName", resultItemName)
+    subMessage = PAGetString(Defines.StringSheet_GAME, "LUA_REWARDNAKMESSAGE_KARAZAD_MSG_1")
     itemIcon = "Icon/" .. itemStaticWrapper:getIconPath()
   end
   local msg = {
@@ -3156,6 +3210,8 @@ function FromClient_notifyGetItem(notifyType, playerName, fromName, iconPath, pa
     Proc_ShowMessage_Ack_For_RewardSelect(msg, 5, messageType.eventDraw, nil, isSelfPlayer)
   elseif notifyType == __eBroadCastNotiFyType_GetThousandInsam then
     Proc_ShowMessage_Ack_For_RewardSelect(msg, 5, messageType.thousandInsam, nil, isSelfPlayer)
+  elseif notifyType == __eBroadCastNotiFyType_SuccessManufacture then
+    Proc_ShowMessage_Ack_For_RewardSelect(msg, 5, messageType.KingAccessory, nil, isSelfPlayer)
   else
     Proc_ShowMessage_Ack_For_RewardSelect(msg, 2.5, messageType.anotherPlayerGotItem, nil, isSelfPlayer)
   end
@@ -4149,6 +4205,22 @@ function PaGlobal_RewardSelect_SetNak_BigShip(type, title, desc)
   stc_HuntingBg:SetShow(false)
   stc_HuntingBg:EraseAllEffect()
 end
+function PaGlobal_RewardSelect_SetNak_KingAccessory(msg)
+  if msg == nil then
+    return
+  end
+  crogdalog._icon:ChangeTextureInfoName(msg.addMsg)
+  crogdalog._icon:SetShow(true)
+  crogdalog._bg:EraseAllEffect()
+  crogdalog._bg:AddEffect("fUI_NakMessage_Crogdal_01A", false, 0, 0)
+  crogdalog._bg:SetShow(true)
+  crogdalog._txt_sub:SetText(msg.sub)
+  crogdalog._txt_main:SetText(msg.main)
+  crogdalog._txt_sub:SetShow(true)
+  crogdalog._txt_main:SetShow(true)
+  audioPostEvent_SystemUi(3, 27)
+  _AudioPostEvent_SystemUiForXBOX(3, 27)
+end
 function PaGlobal_RewardSelect_IsForceShowMessage()
   return isForceShowMessage
 end
@@ -4212,6 +4284,9 @@ function PaGlobal_RewardSelect_SetDefault()
   telescope._bg:SetShow(false)
   telescope._txt_sub:SetShow(false)
   telescope._txt_main:SetShow(false)
+  kingAccessory._bg:SetShow(false)
+  kingAccessory._txt_sub:SetShow(false)
+  kingAccessory._txt_main:SetShow(false)
   elementalBossBuff._bg:SetShow(false)
   elementalBossBuff._txt_main:SetShow(false)
   elementalBossBuff._txt_sub:SetShow(false)

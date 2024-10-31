@@ -530,6 +530,9 @@ function PaGlobal_GameOption_All:ListInit()
       _frameOrder = self._frameOrder.inGame.consoleTest.main
       _detailOrder = self._frameOrder.inGame.consoleTest.sub
     elseif true == _ContentsOption_CH_GameType then
+      if ToClient_GetOnStartCloudGame() == true then
+        table.remove(self._frameOrder.inGame.china.sub[1], 2)
+      end
       _frameOrder = self._frameOrder.inGame.china.main
       _detailOrder = self._frameOrder.inGame.china.sub
       table.remove(self._frames.Interface.UI, 4)

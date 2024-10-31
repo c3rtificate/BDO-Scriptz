@@ -355,9 +355,10 @@ function FGlobal_FirstLogin_Open(characterSelect)
   Panel_FirstLogin:SetShow(true, true)
   FirstLogin._currentStep = 1
   if ToClient_GetOnStartCloudGame() == true then
-    FirstLogin:NewSetStep2()
-    FirstLogin:setCurrentStepIcon(2)
-    FirstLogin._currentStep = 2
+    FirstLogin._currentStep = 3
+    if FirstLogin._stepMaxCount < FirstLogin._currentStep then
+      FirstLogin:NewSetStepEnd()
+    end
   end
 end
 function FGlobal_FirstLogin_InGameClose()

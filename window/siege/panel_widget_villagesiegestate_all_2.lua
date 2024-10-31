@@ -32,7 +32,7 @@ function PaGlobalFunc_VillageSiegeStateWidget_Update(deltaTime)
     return
   end
   self._accumulatedDeltaTime = self._accumulatedDeltaTime + deltaTime
-  if self._accumulatedDeltaTime > 5 then
+  if self._accumulatedDeltaTime > 1 then
     self._accumulatedDeltaTime = 0
     self:update(deltaTime)
   end
@@ -70,6 +70,7 @@ function HandleEventLUp_VillageSiegeStateWidget_OnOutTentContent(isOn, siegeTent
   local isHideSiege = siegeTentWrapper:isHideSiege()
   local name = txt_tentName:GetText()
   local desc
+  local territoryKeyRaw = ToClient_GetStartSiegeTerritoryKey()
   if endState == __eBuildingInfoStateSiege2024_NotEnd then
     local hpRate = math.ceil(siegeTentWrapper:getHPRate() * 100)
     local hpRatString = ""
@@ -86,16 +87,24 @@ function HandleEventLUp_VillageSiegeStateWidget_OnOutTentContent(isOn, siegeTent
     else
       hpRatString = "<PAColor0xffec4f2d>" .. tostring(hpRate) .. "<PAOldColor>"
     end
+    local occupyRemainTime_s64 = siegeTentWrapper:getOccupyRemainTime()
+    local occupyRemainTime = PATime(occupyRemainTime_s64)
+    local occupyRemainMinute = Int64toInt32(occupyRemainTime:GetMinute())
+    local occupyRemainSecond = Int64toInt32(occupyRemainTime:GetSecond())
     if isHideSiege == true then
       desc = PAGetString(Defines.StringSheet_GAME, "LUA_VILLAGESIEGE_STATE_TOOLTIP_2024_0")
+      if occupyRemainMinute * 60 + occupyRemainSecond ~= 0 and ToClient_GetSiege2024TerritoryParticiapteGuildCount(territoryKeyRaw) ~= 2 then
+        if occupyRemainMinute == 0 then
+          desc = desc .. "\n" .. PAGetString(Defines.StringSheet_GAME, "LUA_VILLAGESIEGE_STATE_TOOLTIP_2024_8")
+        else
+          desc = desc .. "\n" .. PAGetStringParam1(Defines.StringSheet_GAME, "LUA_VILLAGESIEGE_STATE_TOOLTIP_2024_7", "minute", occupyRemainMinute)
+        end
+      end
     else
       local remainTime_s64 = siegeTentWrapper:getRemainTime()
-      local occupyTime_s64 = siegeTentWrapper:getOccupyTime()
       local remainTime = PATime(remainTime_s64)
-      local occupyTime = PATime(occupyTime_s64)
       local remainTimeRate = siegeTentWrapper:getRemainTimeRate() * 100
       local remainTimeString = ""
-      local occupyTimeString = ""
       local min = remainTime:GetMinute()
       local sec = remainTime:GetSecond()
       if remainTimeRate >= 50 then
@@ -107,6 +116,13 @@ function HandleEventLUp_VillageSiegeStateWidget_OnOutTentContent(isOn, siegeTent
         desc = PAGetString(Defines.StringSheet_GAME, "LUA_VILLAGESIEGE_STATE_TOOLTIP_2024_1")
       else
         desc = PAGetStringParam1(Defines.StringSheet_GAME, "LUA_VILLAGESIEGE_STATE_TOOLTIP_2024_2", "minute", remainTimeString)
+      end
+      if occupyRemainMinute * 60 + occupyRemainSecond ~= 0 and ToClient_GetSiege2024TerritoryParticiapteGuildCount(territoryKeyRaw) ~= 2 then
+        if occupyRemainMinute == 0 then
+          desc = desc .. "\n" .. PAGetString(Defines.StringSheet_GAME, "LUA_VILLAGESIEGE_STATE_TOOLTIP_2024_8")
+        else
+          desc = desc .. "\n" .. PAGetStringParam1(Defines.StringSheet_GAME, "LUA_VILLAGESIEGE_STATE_TOOLTIP_2024_7", "minute", occupyRemainMinute)
+        end
       end
     end
     desc = desc .. "\n" .. PAGetStringParam1(Defines.StringSheet_GAME, "LUA_SIEGE_CASTLEHP", "hp", hpRatString)

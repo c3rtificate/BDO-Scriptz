@@ -13,6 +13,7 @@ PaGlobal_VillageSiegeStateWidget = {
     VALENCIA = 4,
     KAMASYLVIA = 6
   },
+  _isConsole = false,
   _accumulatedDeltaTime = 0,
   _initialize = false
 }

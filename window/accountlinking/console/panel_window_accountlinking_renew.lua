@@ -91,6 +91,9 @@ function AccountLinking:open()
     self._ui.btn_unlink:SetShow(false)
     self._ui.btn_signup:SetShow(true)
     self._ui.btn_link:SetShow(true)
+    if ToClient_isPS5() == true then
+      self._ui.btn_signup:SetShow(false)
+    end
   end
 end
 function Input_AccountLinking_EditID()

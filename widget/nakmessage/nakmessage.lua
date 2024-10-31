@@ -82,7 +82,8 @@ local frameEventMessageIds = {
   "LUA_FRAMEEVENT_NOT_SORCERESS_GROGGY",
   "LUA_FRAMEEVENT_NOT_MANY_HOLY",
   "LUA_RENTALSHIP_CANNON_FAIL",
-  "LUA_FRAMEEVENT_NOVA_ARO"
+  "LUA_FRAMEEVENT_NOVA_ARO",
+  "LUA_FRAMEEVENT_FLY_HIGH_VEHICLE"
 }
 function Proc_ShowMessage_FrameEvent(messageNum)
   Proc_ShowMessage_Ack(PAGetString(Defines.StringSheet_GAME, frameEventMessageIds[messageNum]))

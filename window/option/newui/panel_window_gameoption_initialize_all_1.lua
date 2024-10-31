@@ -28,7 +28,7 @@ function PaGlobal_GameOption_All:CreateFrame(category, detail, searchElement)
   end
   local frameInfo = PaGlobal_GameOption_All._frames[category][detail]
   self._currentFrame = frameInfo
-  local titleSizeY = PaGlobal_GameOption_All:CreateAndSetPageTitle()
+  local titleSizeY = PaGlobal_GameOption_All:CreateAndSetPageTitle(category, detail)
   local tempPosY = offset + titleSizeY
   for index, option in ipairs(frameInfo) do
     if nil ~= option._element then
@@ -150,7 +150,7 @@ function PaGlobal_GameOption_All:CreateFrame(category, detail, searchElement)
     ToClient_padSnapResetControl()
   end
 end
-function PaGlobal_GameOption_All:CreateAndSetPageTitle()
+function PaGlobal_GameOption_All:CreateAndSetPageTitle(category, detail)
   local titleGroup = self:CreateControl_PageTitle(0)
   titleGroup:SetShow(true)
   local title = UI.getChildControl(titleGroup, "StaticText_Title")
@@ -166,6 +166,11 @@ function PaGlobal_GameOption_All:CreateAndSetPageTitle()
     resetFrame:addInputEvent("Mouse_LUp", "PaGlobal_GameOption_All:ClickedResetFrame()")
     resetFrame:addInputEvent("Mouse_On", "PaGlobal_GameOption_All_ShowResetTooltip( true )")
     resetFrame:addInputEvent("Mouse_Out", "PaGlobal_GameOption_All_ShowResetTooltip( false )")
+    if ToClient_GetOnStartCloudGame() == true and category == "Graphic" and detail == "Quality" then
+      resetFrame:SetShow(false)
+    else
+      resetFrame:SetShow(true)
+    end
   end
   return titleGroup:GetSizeY()
 end

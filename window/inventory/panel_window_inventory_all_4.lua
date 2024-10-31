@@ -958,13 +958,13 @@ function PaGlobalFunc_Inventory_All_SlotRClickXXX(slotNo, equipSlotNo, index)
       if ToClient_CheckAndNotifyNecessarySlotForOpenItemBox(inventoryType, slotNo, 1) ~= 0 then
         return
       end
-      PaGlobal_Inventory_All._multiUseCount = itemWrapper:getCount()
+      PaGlobal_Inventory_All._multiUseCount_s64 = itemWrapper:getCount()
       PaGlobal_Inventory_All._multiUseInventoryType = inventoryType
       PaGlobal_Inventory_All._multiUseSlotNo = slotNo
       if itemEnchantWrapper:getContentsEventParam2() == __eBoxItemUiType_NotUseMultiBoxItem then
-        PaGlobal_Inventory_All._multiUseCount = toInt64(0, 1)
+        PaGlobal_Inventory_All._multiUseCount_s64 = toInt64(0, 1)
       elseif itemEnchantWrapper:isStackable() == false and itemEnchantWrapper:getContentsEventType() == __eContentsType_ItemBox then
-        PaGlobal_Inventory_All._multiUseCount = ToClient_InventoryFindSlotListSize(inventoryType, itemWrapper:get():getKey())
+        PaGlobal_Inventory_All._multiUseCount_s64 = ToClient_InventoryFindSlotListSize(inventoryType, itemWrapper:get():getKey())
       end
       if itemEnchantWrapper:isPopupItem() == true then
         if itemEnchantWrapper:getContentsEventType() == __eContentsType_Roulette then
@@ -1499,7 +1499,7 @@ function HandleClicked_NearNpc_NaviStart(spawnType, isAuto)
   PaGlobal_TutorialManager:handleClickedTownNpcIconNaviStart(spawnType, isAuto)
 end
 function HandleClicked_Inventory_All_UseMultiBoxes()
-  Panel_NumberPad_Show(true, PaGlobal_Inventory_All._multiUseCount, PaGlobal_Inventory_All._multiUseInventoryType, HandleEvent_Inventory_All_UseMultiItems, false, PaGlobal_Inventory_All._multiUseSlotNo, false, nil, nil)
+  Panel_NumberPad_Show(true, PaGlobal_Inventory_All._multiUseCount_s64, PaGlobal_Inventory_All._multiUseInventoryType, HandleEvent_Inventory_All_UseMultiItems, false, PaGlobal_Inventory_All._multiUseSlotNo, false, nil, nil)
 end
 function HandleEvent_Inventory_All_UseMultiItems(count, inventoryType, slotNo)
   if Int64toInt32(count) <= 0 then
@@ -1508,7 +1508,7 @@ function HandleEvent_Inventory_All_UseMultiItems(count, inventoryType, slotNo)
   ToClient_SetMultiUseItemCount(count)
   PaGlobalFunc_Inventory_All_UseItemTargetSelf(inventoryType, slotNo, nil)
   ToClient_SetMultiUseItemCount(1)
-  PaGlobal_Inventory_All._multiUseCount = 0
+  PaGlobal_Inventory_All._multiUseCount_s64 = Defines.s64_const.s64_0
   PaGlobal_Inventory_All._multiUseInventoryType = nil
   PaGlobal_Inventory_All._multiUseSlotNo = nil
 end

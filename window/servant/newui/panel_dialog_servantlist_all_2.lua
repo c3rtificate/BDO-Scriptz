@@ -248,6 +248,9 @@ function HandleEventOn_ServantList_All_SelectServant(eType, slotNo)
       stable_previewEquipItem(sortedSlotNo)
     end
   elseif eType == PaGlobal_ServantList_All._ENUM_TYPEUNSEALED then
+    if PaGlobalFunc_ServantFunction_All_GetIsGuild() == true then
+      return
+    end
     PaGlobal_ServantList_All._currentSealType = PaGlobal_ServantList_All._ENUM_TYPEUNSEALED
     local temporaryWrapper = getTemporaryInformationWrapper()
     if temporaryWrapper == nil then

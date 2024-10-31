@@ -741,6 +741,9 @@ function Panel_Lobby_SelectClass_OpenClassHompage()
   ToClient_OpenChargeWebPage(url, false)
 end
 function Panel_Lobby_SetMovie()
+  if _index == nil then
+    return
+  end
   local movieName = getClassMovie(_index, FGlobal_GetPlayerCreateType())
   if movieName ~= nil then
     local isAwakenOpen = PaGlobalFunc_Util_GetIsAwakenWeaponContentsOpen(_index)
@@ -1069,7 +1072,11 @@ function PaGlobalFunc_SelectShadowCharacter_Apply()
   shadowClassEdit:SetEditText("")
   ToClient_SelectShadowCharacterShow(shadowClass)
 end
+function FromClient_ClassVideoInitComplete()
+  Panel_Lobby_SetMovie()
+end
 Panel_Lobby_Function_Initialize()
 registerEvent("EventChangeLobbyStageToCharacterCreate_SelectClass", "Panel_Lobby_Function_showCharacterCreate_SelectClass")
+registerEvent("FromClient_ClassVideoInitComplete", "FromClient_ClassVideoInitComplete")
 registerEvent("EventCharacterCustomizationInitUi", "Panel_Lobby_Function_showCharacterCustomization")
 registerEvent("FromClient_CharacterCreateOK", "Panel_CharacterCreateOK_NewCustomization")

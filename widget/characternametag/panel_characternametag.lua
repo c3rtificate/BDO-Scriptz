@@ -3670,6 +3670,9 @@ local settingGuildMarkAndPreemptiveStrike = function(actorKeyRaw, targetPanel, a
   if actorProxyWrapper:isParticipateInElfWar() == true then
     return
   end
+  if ToClient_IsInstanceFieldPlayerbyContentsType(__eInstanceContentsType_GuildMatch) == true then
+    preemptiveStrikeBeing:SetShow(false)
+  end
   local scaleBuffer = guildMark:GetScale()
   preemptiveStrikeBeing:SetScale(1, 1)
   murdererMark:SetScale(1, 1)

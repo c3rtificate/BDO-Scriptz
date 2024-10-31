@@ -152,6 +152,12 @@ function PaGlobal_LocalQuestAlert:initialize()
     title = "",
     desc = PAGetString(Defines.StringSheet_GAME, "LUA_LOCALQUESTALERT_MORNINGLANDEPISODE_12")
   }
+  PaGlobal_LocalQuestAlert._info[LOCATION.MORNINGLANDEPISODE_13] = {
+    location = PAGetString(Defines.StringSheet_GAME, "LUA_MORNINGMAINPROGRESS_TITLE_13"),
+    texture = "MorningLandBossEnding_2.dds",
+    title = "",
+    desc = PAGetString(Defines.StringSheet_GAME, "LUA_LOCALQUESTALERT_MORNINGLANDEPISODE_13")
+  }
   PaGlobal_LocalQuestAlert._info[LOCATION.DRAGONPALACEEPISODE_01] = {
     location = PAGetString(Defines.StringSheet_GAME, "LUA_QUESTLIST_HISTORY_TXT_DRAGONPALACEEPISODE_01"),
     texture = "DragonPalaceClear.dds",
@@ -402,8 +408,8 @@ function PaGlobal_LocalQuestAlert:initialize()
       LOCATION.MOUNTAINOFETERNALWINTER
     },
     {
-      8515,
-      10,
+      8524,
+      22,
       LOCATION.MORNINGLAND
     },
     {
@@ -480,6 +486,11 @@ function PaGlobal_LocalQuestAlert:initialize()
       8514,
       17,
       LOCATION.MORNINGLANDEPISODE_12
+    },
+    {
+      8515,
+      10,
+      LOCATION.MORNINGLANDEPISODE_13
     },
     {
       8750,

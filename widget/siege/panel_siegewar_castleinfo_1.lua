@@ -63,9 +63,11 @@ function PaGlobal_SiegeWar_CastleInfo:prepareClose()
   Panel_SiegeWar_CastleInfo:ClearUpdateLuaFunc("PaGlobal_SiegeWar_CastleInfo_UpdatePerFrame")
   PaGlobal_SiegeWar_CastleInfo:close()
   if ToClient_isConsole() == true then
-    PaGlobal_MainQuest_OpenForSiege()
+    Panel_MainQuest:SetIgnoreRenderAndEvent(false)
+    Panel_LatestQuest:SetIgnoreRenderAndEvent(false)
   else
-    FGlobal_QuestWidget_OpenSeparate()
+    Panel_MainQuest:SetIgnoreRenderAndEvent(false)
+    Panel_CheckedQuest:SetIgnoreRenderAndEvent(false)
   end
 end
 function PaGlobal_SiegeWar_CastleInfo:close()
@@ -227,11 +229,19 @@ function PaGlobal_SiegeWar_CastleInfo:validate()
 end
 function PaGlobal_SiegeWar_CastleInfo_UpdatePerFrame(deletaTime)
   if ToClient_isConsole() == true then
-    if true == Panel_MainQuest:GetShow() or true == Panel_LatestQuest:GetShow() then
-      PaGlobal_MainQuest_CloseForSiege()
+    if Panel_MainQuest ~= nil and Panel_MainQuest:isSetIgnoreRenderAndEvent() == false then
+      Panel_MainQuest:SetIgnoreRenderAndEvent(true)
     end
-  elseif true == Panel_CheckedQuest:GetShow() or true == Panel_MainQuest:GetShow() then
-    FGlobal_QuestWidget_Close()
+    if Panel_LatestQuest ~= nil and Panel_LatestQuest:isSetIgnoreRenderAndEvent() == false then
+      Panel_LatestQuest:SetIgnoreRenderAndEvent(true)
+    end
+  else
+    if Panel_MainQuest ~= nil and Panel_MainQuest:isSetIgnoreRenderAndEvent() == false then
+      Panel_MainQuest:SetIgnoreRenderAndEvent(true)
+    end
+    if Panel_CheckedQuest ~= nil and Panel_CheckedQuest:isSetIgnoreRenderAndEvent() == false then
+      Panel_CheckedQuest:SetIgnoreRenderAndEvent(true)
+    end
   end
   for ii = 1, #PaGlobal_SiegeWar_CastleInfo._ui._stc_castleInfoList do
     if 0 == PaGlobal_SiegeWar_CastleInfo._ui._stc_castleInfoList[ii]._stc_hpNormal:GetProgressRate() then

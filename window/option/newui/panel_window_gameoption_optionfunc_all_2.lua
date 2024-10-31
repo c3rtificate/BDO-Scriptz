@@ -980,3 +980,6 @@ end
 function PaGlobal_GameOption_All._elements.UseShowLootingPopupMenu:set(value)
   ToClient_setUseShowLootingPopupMenu(value)
 end
+function PaGlobal_GameOption_All._elements.FirstEnterCharacterViewMode:set(value)
+  ToClient_SetFirstEnterCharacterViewMode(value)
+end

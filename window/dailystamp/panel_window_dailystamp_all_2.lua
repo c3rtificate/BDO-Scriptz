@@ -179,6 +179,11 @@ function FromClient_DailyStamp_All_onScreenResize()
 end
 function FromClient_AttendanceNoticeView_DailyStamp()
   PaGlobal_DailyStamp_All._rewardRemindShow = false
+  if PaGlobal_DailyStamp_All._isFirstFiendEnterShowRewardUI == true then
+    PaGlobalFunc_DailyStamp_All_Open(true)
+    luaTimer_AddEvent(HandleEventLUp_PaGlobal_Daily_Reward_Notice_All_CloseAnimation, 5000, false, 0)
+    PaGlobal_DailyStamp_All._isFirstFiendEnterShowRewardUI = false
+  end
 end
 function FromClient_DailyStamp_All_AttendanceUpdate(attendanceKey)
   if nil == Panel_Window_DailyStamp_All then
@@ -229,6 +234,9 @@ function FromClient_DailyStamp_All_AttendanceUpdateAll(isNextDay)
   end
   if true == isNextDay then
     PaGlobal_DailyStamp_All._nextDayShow = isNextDay
+  end
+  if isNextDay == false and PaGlobal_DailyStamp_All._dailyStampCount ~= ToClient_GetAttendanceInfoCount and isFirstFieldEnterMode() == false then
+    PaGlobal_DailyStamp_All._isFirstFiendEnterShowRewardUI = true
   end
   PaGlobal_DailyStamp_All._yesterdayTabCount = PaGlobal_DailyStamp_All._dailyStampCount
   PaGlobal_DailyStamp_All._dailyStampCount = ToClient_GetAttendanceInfoCount()

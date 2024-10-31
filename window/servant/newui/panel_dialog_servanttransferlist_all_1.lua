@@ -207,26 +207,22 @@ function PaGlobal_ServantTransferList_All:update()
     for i = 0, regionKeyCount - 1 do
       local regionKey = ToClient_GetRegionWithWharfNpcByIndex(i)
       if regionKey ~= currentRegionKey then
-        if ToClient_IsElfWarServantNpcRegion(regionKey) == false then
-          local regionInfoWrapper = getRegionInfoWrapper(regionKey)
-          if nil ~= regionInfoWrapper then
-            local territoryKey = regionInfoWrapper:getTerritoryKeyRaw()
-            if 0 == territoryCount then
+        local regionInfoWrapper = getRegionInfoWrapper(regionKey)
+        if nil ~= regionInfoWrapper then
+          local territoryKey = regionInfoWrapper:getTerritoryKeyRaw()
+          if 0 == territoryCount then
+            sortList[territoryKey] = {}
+            table.insert(sortList[territoryKey], regionKey)
+            territoryList[territoryCount] = territoryKey
+            territoryCount = territoryCount + 1
+          else
+            if nil == sortList[territoryKey] then
               sortList[territoryKey] = {}
-              table.insert(sortList[territoryKey], regionKey)
               territoryList[territoryCount] = territoryKey
               territoryCount = territoryCount + 1
-            else
-              if nil == sortList[territoryKey] then
-                sortList[territoryKey] = {}
-                territoryList[territoryCount] = territoryKey
-                territoryCount = territoryCount + 1
-              end
-              table.insert(sortList[territoryKey], regionKey)
             end
+            table.insert(sortList[territoryKey], regionKey)
           end
-        else
-          elfWarRegionCount = elfWarRegionCount + 1
         end
       end
     end

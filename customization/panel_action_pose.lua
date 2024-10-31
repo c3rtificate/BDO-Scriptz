@@ -140,6 +140,7 @@ function openMotionUi(classType)
   Panel_CustomizationMotion:SetPosX(Panel_CustomizationFrame:GetPosX())
   Panel_CustomizationMotion:SetPosY(Panel_CustomizationFrame:GetPosY())
   setPresetCamera(4)
+  PaGlobalFunc_Customization_ShowConfirmButton(true, 3)
 end
 function closeMotionUi()
   if Panel_CustomizationImage:GetShow() then
@@ -155,4 +156,5 @@ function closeMotionUi()
   CustomizationMainUIShow(true)
   selectPoseControl(0)
   setPresetCamera(10)
+  PaGlobalFunc_Customization_ShowConfirmButton(false)
 end

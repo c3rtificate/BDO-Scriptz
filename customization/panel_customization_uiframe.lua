@@ -133,6 +133,10 @@ function CloseFrame()
     CloseTextureUi()
     return
   end
+  if globalcheckSlider == true then
+    add_CurrentHistory()
+    globalcheckSlider = false
+  end
   EnableCursor(false)
   SelectControlPart(-1)
   Panel_CustomizationFrame:SetShow(false, false)
@@ -140,6 +144,7 @@ function CloseFrame()
   selectCustomizationControlPart(-1)
   selectCustomizationControlGroup(-1)
   CustomizationMainUIShow(true)
+  PaGlobalFunc_Customization_ShowConfirmButton(false)
 end
 function CloseFrameForPoseUI()
   Panel_CustomizationFrame:SetShow(false)
@@ -211,6 +216,7 @@ function OpenCustomizationUiGroupFrame(classType, uiGroupIndex)
   end
   SelectControlPart(0)
   Panel_CustomizationFrame:SetShow(true, false)
+  PaGlobalFunc_Customization_ShowConfirmButton(true, 1)
 end
 function toggleShowFrameUI(show)
   Panel_CustomizationFrame:SetShow(show)

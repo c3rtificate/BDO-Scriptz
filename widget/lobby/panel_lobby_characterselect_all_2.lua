@@ -22,6 +22,7 @@ function PaGlobalFunc_CharacterSelect_All_OnScreenResize()
   PaGlobal_CharacterSelect_All._ui.chk_Ghost:ComputePos()
   PaGlobal_CharacterSelect_All._ui.btn_BackToServer:ComputePos()
   PaGlobal_CharacterSelect_All._ui.stc_FreeSeasonArea:ComputePos()
+  PaGlobal_CharacterSelect_All._ui.btn_GamePlay:ComputePos()
   if true == PaGlobal_CharacterSelect_All._isUsePadSnapping then
     PaGlobal_CharacterSelect_All._ui.stc_KeyGuide_A:ComputePos()
     PaGlobal_CharacterSelect_All._ui.stc_KeyGuide_B:ComputePos()
@@ -73,7 +74,6 @@ function PaGlobalFunc_CharacterSelect_All_List2Update(content, key)
   local stc_DeleteIconConsole = UI.getChildControl(stc_DeleteConsole, "StaticText_DeleteIcon")
   local stc_Delete = UI.getChildControl(content, "StaticText_Delete")
   local stc_DeleteIcon = UI.getChildControl(stc_Delete, "StaticText_DeleteIcon")
-  local stc_AddIcon = UI.getChildControl(content, "Static_AddIcon")
   local stc_UnlockIcon = UI.getChildControl(content, "Static_UnlockIcon")
   local stc_LockIcon = UI.getChildControl(content, "Static_LockIcon")
   local btn_Up = UI.getChildControl(content, "Button_Up")
@@ -82,6 +82,7 @@ function PaGlobalFunc_CharacterSelect_All_List2Update(content, key)
   local stc_SeaServant = UI.getChildControl(content, "Static_ServantView_Sea")
   local txt_SeasonDesc = UI.getChildControl(content, "StaticText_SeasonDesc")
   local stc_duelCharIcon = UI.getChildControl(content, "Static_OriginalCha")
+  local txt_AddIcon = UI.getChildControl(content, "StaticText_AddIcon")
   local btns = {
     _slot = btnSlot,
     _enter = btn_Enter,
@@ -95,14 +96,14 @@ function PaGlobalFunc_CharacterSelect_All_List2Update(content, key)
   btnSlot:registerPadEvent(__eConsoleUIPadEvent_Up_Y, "")
   btnSlot:SetIgnore(false)
   btnSlot:setNotImpactScrollEvent(true)
-  selectGradation:SetShow(false)
   btn_Enter:SetShow(false)
+  selectGradation:SetShow(false)
   stc_ClassIcon:SetShow(false)
   txt_lv:SetShow(false)
   txt_Name:SetShow(false)
   txt_Region:SetShow(false)
   stc_Delete:SetShow(false)
-  stc_AddIcon:SetShow(false)
+  txt_AddIcon:SetShow(false)
   stc_UnlockIcon:SetShow(false)
   stc_LockIcon:SetShow(false)
   stc_LockIcon:SetMonoTone(true)
@@ -122,6 +123,7 @@ function PaGlobalFunc_CharacterSelect_All_List2Update(content, key)
   stc_DeleteConsole:SetShow(false)
   stc_DeleteIconConsole:SetShow(false)
   stc_duelCharIcon:SetShow(false)
+  txt_AddIcon:SetPosX((content:GetSizeX() - (txt_AddIcon:GetSizeX() + txt_AddIcon:GetTextSizeX()) + 5) / 2)
   if true == PaGlobal_CharacterSelect_All._isUsePadSnapping then
     btnSlot:registerPadEvent(__eConsoleUIPadEvent_Up_A, "")
     btnSlot:registerPadEvent(__eConsoleUIPadEvent_Up_Y, "")
@@ -165,6 +167,7 @@ function PaGlobalFunc_CharacterSelect_All_List2Update(content, key)
       local removeTime = getCharacterDataRemoveTime(charIdx, playerCreateType)
       local isMouseOverFlag = charIdx == PaGlobal_CharacterSelect_All._currentOveredCharIdx and false == PaGlobalFunc_CharacterSelect_All_IsPositionChangeClick()
       local mouseOverEffect = isMouseOverFlag and charIdx ~= PaGlobal_CharacterSelect_All._selectedCharIdx
+      local isSelectedFlag = charIdx == PaGlobal_CharacterSelect_All._selectedCharIdx and false == PaGlobalFunc_CharacterSelect_All_IsPositionChangeClick()
       if true == PaGlobal_CharacterSelect_All._isUsePadSnapping then
         if PaGlobal_CharacterSelect_All._currentTab == PaGlobal_CharacterSelect_All._TABTYPE._NORMAL then
           btnSlot:registerPadEvent(__eConsoleUIPadEvent_Up_X, "HandleEventLUp_CharacterSelect_All_ClickChangePosition()")
@@ -173,7 +176,7 @@ function PaGlobalFunc_CharacterSelect_All_List2Update(content, key)
         end
         btn_Enter:SetShow(false)
       else
-        btn_Enter:SetShow(isMouseOverFlag and nil == removeTime)
+        btn_Enter:SetShow(isSelectedFlag or isMouseOverFlag)
         btnSlot:addInputEvent("Mouse_On", "HandleEventOn_CharacterSelect_All_CharacterOver(" .. charIdx .. ")")
       end
       btn_Enter:addInputEvent("Mouse_LUp", "")
@@ -298,26 +301,26 @@ function PaGlobalFunc_CharacterSelect_All_List2Update(content, key)
       btnSlot:addInputEvent("Mouse_On", "HandleEventLOn_CharacterSelect_All_KeyGuideChange(" .. charIdx .. ", " .. tostring(PaGlobal_CharacterSelect_All._eKeyGuideType.ADD_NEWCHARACTER) .. ")")
       btnSlot:SetIgnore(false)
       btnSlot:SetShow(true)
-      stc_AddIcon:SetShow(true)
+      txt_AddIcon:SetShow(true)
       stc_UnlockIcon:SetShow(false)
       stc_LockIcon:SetShow(false)
     else
       btnSlot:SetIgnore(true)
       btnSlot:SetShow(true)
-      stc_AddIcon:SetShow(false)
+      txt_AddIcon:SetShow(false)
       stc_UnlockIcon:SetShow(false)
       stc_LockIcon:SetShow(true)
     end
   elseif charIdx < limitCount then
     btnSlot:SetIgnore(true)
     btnSlot:SetShow(true)
-    stc_AddIcon:SetShow(false)
+    txt_AddIcon:SetShow(false)
     stc_UnlockIcon:SetShow(true)
     stc_LockIcon:SetShow(false)
   else
     btnSlot:SetIgnore(true)
     btnSlot:SetShow(true)
-    stc_AddIcon:SetShow(false)
+    txt_AddIcon:SetShow(false)
     stc_UnlockIcon:SetShow(false)
     stc_LockIcon:SetShow(true)
   end
@@ -672,6 +675,25 @@ function HandleEventLUp_CharacterSelect_All_CharacterSelect(charIdx, initialSele
     PaGlobal_CharacterSelect_All._ui.txt_CharacterName:SetText("")
   end
   PaGlobal_CharacterSelect_All._ui.stc_SeasonBg:SetShow(false)
+  local content = PaGlobal_CharacterSelect_All._ui.list2_Character:GetContentByKey(toInt64(0, charIdx))
+  if content ~= nil then
+    local btnSlot = UI.getChildControl(content, "Button_CharacterSlot")
+    local btn_Enter = UI.getChildControl(btnSlot, "Button_Enter")
+    local removeTime = getCharacterDataRemoveTime(charIdx, playerCreateType)
+    if removeTime ~= nil or PaGlobalFunc_CharacterSelect_All_IsPositionChangeClick() == true then
+      btn_Enter:SetShow(false)
+      PaGlobal_CharacterSelect_All._ui.btn_GamePlay:SetMonoTone(true)
+      PaGlobal_CharacterSelect_All._ui.btn_GamePlay:SetEnable(false)
+    else
+      btn_Enter:SetShow(true)
+      PaGlobal_CharacterSelect_All._ui.btn_GamePlay:SetMonoTone(false)
+      PaGlobal_CharacterSelect_All._ui.btn_GamePlay:SetEnable(true)
+    end
+    if PaGlobal_CharacterSelect_All._isUsePadSnapping == true then
+      btn_Enter:SetShow(false)
+    end
+    btn_Enter:addInputEvent("Mouse_LUp", "HandleEventLUp_CharacterSelect_All_PrepareEnterToField(" .. charIdx .. ")")
+  end
 end
 function PaGlobalFunc_CharacterSelect_All_UpdateChracterStatus(charData, removeTime)
   if nil == charData and nil ~= removeTime then
@@ -1149,4 +1171,14 @@ function PaGlobalFunc_CharacterSelect_All_CheckAndSetPadUI()
     return
   end
   PaGlobal_CharacterSelect_All:CheckAndSetPadUI()
+end
+function HandleEventLUp_CharacterSelect_All_ClickGamePlay()
+  local self = PaGlobal_CharacterSelect_All
+  if self == nil then
+    return
+  end
+  if PaGlobalFunc_CharacterSelect_All_IsPositionChangeClick() == true then
+    return
+  end
+  HandleEventLUp_CharacterSelect_All_PrepareEnterToField(PaGlobal_CharacterSelect_All._selectedCharIdx)
 end

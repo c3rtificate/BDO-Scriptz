@@ -38,6 +38,7 @@ function PaGlobal_CharacterSelect_All:initialize()
   self._ui.stc_SeasonBg = UI.getChildControl(Panel_CharacterSelect_All, "Static_Season")
   self._ui.txt_SeasonTitle = UI.getChildControl(self._ui.stc_SeasonBg, "StaticText_Title")
   self._ui.txt_SeasonDesc = UI.getChildControl(self._ui.stc_SeasonBg, "StaticText_Desc")
+  self._ui.btn_GamePlay = UI.getChildControl(self._ui.stc_RightBg, "Button_Go_Play_BlackDesert")
   self._ui.stc_PrimiumBg:SetShow(false)
   if self._ui.txt_PrimiumDesc:GetTextSizeX() >= self._ui.txt_PrimiumDesc:GetSizeX() then
     local gap = self._ui.txt_PrimiumDesc:GetSizeY()
@@ -154,6 +155,7 @@ function PaGlobal_CharacterSelect_All:registEventHandler(isUsePadSnapping)
   if true == isUsePadSnapping then
     self._ui.btn_CreateCharacter:registerPadEvent(__eConsoleUIPadEvent_A, "HandleEventLUp_CharacterSelect_All_CreateNewCharacter()")
     self._ui.btn_CreateFreeSeasonCharacter:registerPadEvent(__eConsoleUIPadEvent_A, "PaGlobalFunc_Season_Character_Create()")
+    self._ui.btn_GamePlay:registerPadEvent(__eConsoleUIPadEvent_A, "HandleEventLUp_CharacterSelect_All_ClickGamePlay()")
   else
     self._ui.rdo_Normal:addInputEvent("Mouse_LUp", "HandleEventLUp_CharacterSelect_All_TabClick(" .. self._TABTYPE._NORMAL .. ")")
     if true == self._isPremiumCharacterOpen then
@@ -173,6 +175,7 @@ function PaGlobal_CharacterSelect_All:registEventHandler(isUsePadSnapping)
     self._ui.stc_CharacterCountGuide:addInputEvent("Mouse_Out", "HandleEventOnOut_CharacterSelect_All_CharacterCountGuide(false)")
     self._ui.btn_CreateCharacter:addInputEvent("Mouse_LUp", "HandleEventLUp_CharacterSelect_All_CreateNewCharacter()")
     self._ui.btn_CreateFreeSeasonCharacter:addInputEvent("Mouse_LUp", "PaGlobalFunc_Season_Character_Create()")
+    self._ui.btn_GamePlay:addInputEvent("Mouse_LUp", "HandleEventLUp_CharacterSelect_All_ClickGamePlay()")
   end
 end
 function PaGlobal_CharacterSelect_All:swichPlatform(isUsePadSnapping)
@@ -273,6 +276,14 @@ function PaGlobal_CharacterSelect_All:prepareOpen(charNo)
     local sizeX = self._ui.list2_Character:GetSizeX()
     local sizeY = self._ui.list2_Character:GetSizeY() - self._ui.btn_CreateFreeSeasonCharacter:GetSizeY() - self._ui.stc_FreeSeasonArea:GetSizeY() - 30
     self._ui.list2_Character:SetSize(sizeX, sizeY)
+  end
+  local removeTime = getCharacterDataRemoveTime(self._selectedCharIdx, PaGlobal_CharacterSelect_All._playerCreateType)
+  if self._playerData.haveCount == 0 or removeTime ~= nil or self._ui.btn_ChangePosition:IsCheck() == true then
+    self._ui.btn_GamePlay:SetMonoTone(true)
+    self._ui.btn_GamePlay:SetEnable(false)
+  else
+    self._ui.btn_GamePlay:SetMonoTone(false)
+    self._ui.btn_GamePlay:SetEnable(true)
   end
 end
 function PaGlobal_CharacterSelect_All:CheckNewCharacter()
@@ -412,6 +423,16 @@ function PaGlobal_CharacterSelect_All:update()
     self._ui.btn_CreateCharacter:ComputePos()
     self._ui.btn_CreateFreeSeasonCharacter:ComputePos()
   end
+  self._ui.btn_CreateCharacter:SetShow(false)
+  self._ui.btn_CreateFreeSeasonCharacter:SetShow(false)
+  local removeTime = getCharacterDataRemoveTime(self._selectedCharIdx, PaGlobal_CharacterSelect_All._playerCreateType)
+  if PaGlobalFunc_CharacterSelect_All_IsPositionChangeClick() == true or self._playerData.haveCount == 0 or removeTime ~= nil then
+    self._ui.btn_GamePlay:SetMonoTone(true)
+    self._ui.btn_GamePlay:SetEnable(false)
+  else
+    self._ui.btn_GamePlay:SetMonoTone(false)
+    self._ui.btn_GamePlay:SetEnable(true)
+  end
 end
 function PaGlobal_CharacterSelect_All:getMaxSlot(playerCreateType)
   local maxcount = 0
@@ -430,6 +451,7 @@ function PaGlobal_CharacterSelect_All:enableEnterBtn(isEnable)
   self._ui.rdo_Normal:SetEnable(isEnable)
   self._ui.rdo_Special:SetEnable(isEnable)
   self._ui.rdo_HardCore:SetEnable(isEnable)
+  self._ui.btn_GamePlay:SetEnable(isEnable)
   for idx = 0, #self._ui._btn_EnterTable do
     self._ui._btn_EnterTable[idx]._enter:SetEnable(isEnable)
     self._ui._btn_EnterTable[idx]._delete:SetEnable(isEnable)
@@ -826,6 +848,7 @@ function PaGlobal_CharacterSelect_All:validate()
   self._ui.btn_CreateFreeSeasonCharacter:isValidate()
   self._ui.stc_FreeSeasonArea:isValidate()
   self._ui.stc_FreeSeasonCountBox:isValidate()
+  self._ui.btn_GamePlay:isValidate()
 end
 function PaGlobal_CharacterSelect_All:CheckAndSetPadUI()
   if nil == Panel_CharacterSelect_All then

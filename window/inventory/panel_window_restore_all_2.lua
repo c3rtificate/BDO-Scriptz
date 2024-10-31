@@ -48,16 +48,16 @@ function HandleEventLUp_Restore_All_RestoreJewel()
 end
 function MakeUpItemNameWithEnchantLevel(restoreType, selectNo)
   local itemSSW = ToClient_RequestRestoreItemEnchantStaticStatusWrapperAt(restoreType, selectNo)
-  if nil == itemSSW then
+  if itemSSW == nil then
     return
   end
   local itemName = ""
   local enchantLevel = itemSSW:get()._key:getEnchantLevel()
-  if true == ToClient_IsSpecialEnchantItem(itemSSW:get()._key) then
+  if ToClient_IsSpecialEnchantItem(itemSSW:get()._key) == true and itemSSW:isKingAccessory() == false then
     enchantLevel = 0
   end
-  if 0 ~= enchantLevel then
-    if CppEnums.ItemClassifyType.eItemClassify_Accessory == itemSSW:getItemClassify() then
+  if enchantLevel ~= 0 then
+    if itemSSW:getItemClassify() == CppEnums.ItemClassifyType.eItemClassify_Accessory then
       enchantLevel = enchantLevel + 15
     end
     if enchantLevel > 15 then

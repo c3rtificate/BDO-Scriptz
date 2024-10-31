@@ -438,7 +438,10 @@ function PaGlobal_Dye_All:prepareClose()
     return
   end
   PaGlobalFunc_FullScreenFade_FadeOut()
-  SetUIMode(Defines.UIMode.eUIMode_Default)
+  local curUIMode = GetUIMode()
+  if curUIMode ~= Defines.UIMode.eUIMode_EnterAbyssOne then
+    SetUIMode(Defines.UIMode.eUIMode_Default)
+  end
   self._renderMode:reset()
   if self._isConsole then
   else

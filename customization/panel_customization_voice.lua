@@ -353,6 +353,9 @@ function showVoiceUI(show)
     UpdateVoice()
     Slider_Voice:SetControlPos(getVoicePitch())
     updatePitchSlider()
+    PaGlobalFunc_Customization_ShowConfirmButton(true, 2)
+  else
+    PaGlobalFunc_Customization_ShowConfirmButton(false)
   end
 end
 function closeVoiceUI()

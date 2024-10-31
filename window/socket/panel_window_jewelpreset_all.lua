@@ -15,9 +15,11 @@ PaGlobal_JewelPreset = {
     txt_LClick = nil,
     txt_RClick = nil,
     stc_SlotArea = nil,
+    btn_ShowTooltip = nil,
     btn_Adjust = nil,
     btn_AdjustCancel = nil,
     btn_Save = nil,
+    btn_SaveAdjust = nil,
     btn_Inven = nil,
     stc_Console_Buttons = nil,
     btn_Console_UnEquip = nil,
@@ -70,27 +72,27 @@ PaGlobal_JewelPreset = {
     },
     [__eJewelSpecialSlotNecklace] = {
       _name = PAGetString(Defines.StringSheet_GAME, "LUA_CRYSTALPRESET_SLOT_TOOLTIP_DISUSABLE_NAME"),
-      _desc = PAGetString(Defines.StringSheet_GAME, "LUA_CRYSTALPRESET_SLOT_TOOLTIP_DISUSABLE_DESC")
+      _desc = PAGetString(Defines.StringSheet_GAME, "LUA_CRYSTALPRESET_ACCESSORY_TOOLTIP_1")
     },
     [__eJewelSpecialSlotRing1] = {
       _name = PAGetString(Defines.StringSheet_GAME, "LUA_CRYSTALPRESET_SLOT_TOOLTIP_DISUSABLE_NAME"),
-      _desc = PAGetString(Defines.StringSheet_GAME, "LUA_CRYSTALPRESET_SLOT_TOOLTIP_DISUSABLE_DESC")
+      _desc = PAGetString(Defines.StringSheet_GAME, "LUA_CRYSTALPRESET_ACCESSORY_TOOLTIP_2")
     },
     [__eJewelSpecialSlotRing2] = {
       _name = PAGetString(Defines.StringSheet_GAME, "LUA_CRYSTALPRESET_SLOT_TOOLTIP_DISUSABLE_NAME"),
-      _desc = PAGetString(Defines.StringSheet_GAME, "LUA_CRYSTALPRESET_SLOT_TOOLTIP_DISUSABLE_DESC")
+      _desc = PAGetString(Defines.StringSheet_GAME, "LUA_CRYSTALPRESET_ACCESSORY_TOOLTIP_2")
     },
     [__eJewelSpecialSlotEaring1] = {
       _name = PAGetString(Defines.StringSheet_GAME, "LUA_CRYSTALPRESET_SLOT_TOOLTIP_DISUSABLE_NAME"),
-      _desc = PAGetString(Defines.StringSheet_GAME, "LUA_CRYSTALPRESET_SLOT_TOOLTIP_DISUSABLE_DESC")
+      _desc = PAGetString(Defines.StringSheet_GAME, "LUA_CRYSTALPRESET_ACCESSORY_TOOLTIP_4")
     },
     [__eJewelSpecialSlotEaring2] = {
       _name = PAGetString(Defines.StringSheet_GAME, "LUA_CRYSTALPRESET_SLOT_TOOLTIP_DISUSABLE_NAME"),
-      _desc = PAGetString(Defines.StringSheet_GAME, "LUA_CRYSTALPRESET_SLOT_TOOLTIP_DISUSABLE_DESC")
+      _desc = PAGetString(Defines.StringSheet_GAME, "LUA_CRYSTALPRESET_ACCESSORY_TOOLTIP_4")
     },
     [__eJewelSpecialSlotBelt] = {
       _name = PAGetString(Defines.StringSheet_GAME, "LUA_CRYSTALPRESET_SLOT_TOOLTIP_DISUSABLE_NAME"),
-      _desc = PAGetString(Defines.StringSheet_GAME, "LUA_CRYSTALPRESET_SLOT_TOOLTIP_DISUSABLE_DESC")
+      _desc = PAGetString(Defines.StringSheet_GAME, "LUA_CRYSTALPRESET_ACCESSORY_TOOLTIP_3")
     }
   },
   _jewelSlotList = {},

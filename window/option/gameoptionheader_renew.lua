@@ -208,6 +208,12 @@ PaGlobal_Option._elements = {
     _title = "PANEL_NEWGAMEOPTION_CROSSPLAY_COMMUNICATION_TITLE",
     _desc = "PANEL_NEWGAMEOPTION_CROSSPLAY_COMMUNICATION_DESC"
   },
+  FirstEnterCharacterViewMode = {
+    _defaultValue = true,
+    _type = OPTION_TYPE.CHECKBUTTON,
+    _title = "PANEL_NEWGAMEOPTION_USEFIRSTENTERCHARACTERVIEWMODE",
+    _desc = "PANEL_NEWGAMEOPTION_FUNCTION_ETC_USEFIRSTENTERCHARACTERVIEWMODE_DESC"
+  },
   AudioResourceType = {
     _defaultValue = 0,
     _type = OPTION_TYPE.RADIOBUTTON,
@@ -2017,6 +2023,9 @@ PaGlobal_Option._frames = {
       {
         _element = PaGlobal_Option._elements.EtcOpenBrowser,
         _contentsOption = _ContentsGroup_ChinaOnly
+      },
+      {
+        _element = PaGlobal_Option._elements.FirstEnterCharacterViewMode
       }
     }
   },
@@ -3016,6 +3025,9 @@ end
 function PaGlobal_Option._elements.AlertElementalBoss:set(value)
   ToClient_SetAlertElementalBoss(value)
 end
+function PaGlobal_Option._elements.FirstEnterCharacterViewMode:set(value)
+  ToClient_SetFirstEnterCharacterViewMode(value)
+end
 function PaGlobal_Option._elements.AimAssist:get(wrapper)
   return wrapper:getAimAssist()
 end
@@ -3618,6 +3630,9 @@ function PaGlobal_Option._elements.AlertHp:get(wrapper)
 end
 function PaGlobal_Option._elements.AlertElementalBoss:get(wrapper)
   return wrapper:getAlertElementalBoss()
+end
+function PaGlobal_Option._elements.FirstEnterCharacterViewMode:get(wrapper)
+  return wrapper:getFirstEnterCharacterViewMode()
 end
 local elements = PaGlobal_Option._elements
 elements.UIFontSizeType._radioButtonMapping = {}
